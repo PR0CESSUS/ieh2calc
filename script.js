@@ -4,7 +4,7 @@ function load() {
     if (localStorage.getItem('research-slime-bank-stone-level')) {
       document.getElementById('research-slime-bank-stone-level').value = localStorage.getItem('research-slime-bank-stone-level');
       Research_Slime_Bank_Stone(localStorage.getItem('research-slime-bank-stone-level'));
-  }
+  } else {Research_Slime_Bank_Stone(0);}
 
     
     document.getElementById('research-slime-bank-leaf-level').value = localStorage.getItem('research-slime-bank-leaf-level');
