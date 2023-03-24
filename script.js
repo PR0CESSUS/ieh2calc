@@ -1,6 +1,9 @@
 function load() {
+
+
     if (localStorage.getItem('research-slime-bank-stone-level')) {
       document.getElementById('research-slime-bank-stone-level').value = localStorage.getItem('research-slime-bank-stone-level');
+      Research_Slime_Bank_Stone(localStorage.getItem('research-slime-bank-stone-level'));
   }
 
     
@@ -8,7 +11,7 @@ function load() {
     document.getElementById('upgrade-slime-bank-cap-1-level').value = localStorage.getItem('upgrade-slime-bank-cap-1-level');
     document.getElementById('upgrade-slime-bank-cap-2-level').value = localStorage.getItem('upgrade-slime-bank-cap-2-level');
     document.getElementById('upgrade-slime-bank-cap-1-cost').value = localStorage.getItem('upgrade-slime-bank-cap-1-cost');         
-    Research_Slime_Bank_Stone(localStorage.getItem('research-slime-bank-stone-level'));
+    
     Research_Slime_Bank_Leaf(localStorage.getItem('research-slime-bank-leaf-level'));
     Upgrade_Slime_Bank_Gold_Cap_1(localStorage.getItem('upgrade-slime-bank-cap-1-level'));
     Upgrade_Slime_Bank_Gold_Cap_2(localStorage.getItem('upgrade-slime-bank-cap-2-level'));
