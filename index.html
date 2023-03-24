@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>IEH2calc</title>
+        <script src="./script.js"></script>
+        <link rel="stylesheet" href="./style.css">
+
+
+
+    </head>
+    <body onload="load();">
+        <h1>IEH2calc</h1>
+        <h2>version: 0.0.3</h2>
+        <div style="background-color: antiquewhite;">
+            <table>
+                <tr>
+                    <td>RESEARCH</td>
+                    <td>Level</td>
+                    <td>Value</td>
+                </tr>
+                <tr>
+                    <td>Slime Bank (Stone)</td>
+                    <td>
+                    <form><input type="text" id="research-slime-bank-stone-level"  value="0" onchange="Research_Slime_Bank_Stone(this.value)"></form>    
+                    </td>
+                    <td id="research-slime-bank-stone-value">s</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Slime Bank (Leaf)</td>
+                    <td><form><input type="text" id="research-slime-bank-leaf-level" value="0" onchange="Research_Slime_Bank_Leaf(this.value)"></form></td>
+                    <td id="research-slime-bank-leaf-value">$value</td>
+                </tr>
+                <tr>
+                    <td colspan="3">UPGRADE</td>
+                </tr>
+                <tr>
+                    <td>Silme Gold Cap 1</td>
+                    <td><form><input type="text" id="upgrade-slime-bank-cap-1-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_1(this.value)"></form></td>
+                    <td id="upgrade-slime-bank-cap-1-value">$value</td>
+                    <td id="upgrade-slime-bank-cap-1-value-new">1111</td>
+                </tr>
+                <tr>
+                    <td>Silme Gold Cap 2</td>
+                    <td><form><input type="text" id="upgrade-slime-bank-cap-2-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_2(this.value)"></form></td>
+                    <td id="upgrade-slime-bank-cap-2-value">$value</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Slime Gold Cap</td>
+                    <td id="slime-bank-gold-cap-value">$value</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Intrest</td>
+                    <td id="slime-bank-intrest">$value</td>
+                </tr>
+                <tr>
+                    <td>Cost to upgrade 1 level</td>
+                    <td><form><input type="text" id="upgrade-slime-bank-cap-1-cost" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_1_Cost(this.value)"></form></td>
+                    <td id="slime-bank-optimiser">$value</td>
+                </tr>
+            </table>
+            <form><input type="button" value="Clear localStorage" onclick="restart()"></form>
+        </div>
+        <!-- <script>document.getElementById("research-slime-bank-stone-value").innerHTML = Slime_Gold_Cap_1(document.getElementById("research-slime-bank-stone-level").innerHTML)</script> -->
+    </body>
+
+
+</html>

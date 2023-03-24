@@ -1,0 +1,23 @@
+body {
+    background-color: whitesmoke;
+}
+
+form {
+    margin: 0;
+}
+
+tr {
+    margin: 0;
+    padding: 0;
+}
+
+td {
+    margin: 2 2 2 2;
+    padding: 5 5 2 5;
+    /* padding-right: 0;
+    padding-left: 0; */
+    border-spacing: 0;
+    border-color: black;
+    border-width: 0px;
+    border-style: solid;
+}
