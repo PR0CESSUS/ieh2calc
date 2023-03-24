@@ -9,52 +9,55 @@
     </head>
     <body onload="load();">
         <h1>IEH2calc</h1>
-        <h2>version: 0.0.3</h2>
-        <div style="background-color: antiquewhite;">
+        <h2>version: 0.0.4</h2>
+        <div>
             <table>
                 <tr>
-                    <td>RESEARCH</td>
-                    <td>Level</td>
-                    <td>Value</td>
+                    <td class="tablehead">RESEARCH</td>
+                    <td class="tablehead">Level</td>
+                    <td class="tablehead">Value</td>
                 </tr>
                 <tr>
                     <td>Slime Bank (Stone)</td>
                     <td>
-                    <form><input type="text" id="research-slime-bank-stone-level"  value="0" onchange="Research_Slime_Bank_Stone(this.value)"></form>    
+                    <form><input type="text" id="slime-bank-research-stone-level"  value="0" onchange="Research_Slime_Bank_Stone(this.value)"></form>    
                     </td>
-                    <td id="research-slime-bank-stone-value">s</td>
+                    <td id="slime-bank-research-stone-value">$value</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>Slime Bank (Leaf)</td>
-                    <td><form><input type="text" id="research-slime-bank-leaf-level" value="0" onchange="Research_Slime_Bank_Leaf(this.value)"></form></td>
-                    <td id="research-slime-bank-leaf-value">$value</td>
+                    <td><form><input type="text" id="slime-bank-research-leaf-level" value="0" onchange="Research_Slime_Bank_Leaf(this.value)"></form></td>
+                    <td id="slime-bank-research-leaf-value">$value</td>
                 </tr>
                 <tr>
-                    <td colspan="3">UPGRADE</td>
+                    <td colspan="3" class="tablehead">UPGRADE</td>
                 </tr>
                 <tr>
-                    <td>Silme Gold Cap 1</td>
-                    <td><form><input type="text" id="upgrade-slime-bank-cap-1-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_1(this.value)"></form></td>
-                    <td id="upgrade-slime-bank-cap-1-value">$value</td>
-                    <td id="upgrade-slime-bank-cap-1-value-new">1111</td>
+                    <td>Silme Coin Cap 1</td>
+                    <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-1-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_1(this.value)"></form></td>
+                    <td id="slime-bank-upgrade-slime-coin-cap-1-value">$value</td>
                 </tr>
                 <tr>
-                    <td>Silme Gold Cap 2</td>
-                    <td><form><input type="text" id="upgrade-slime-bank-cap-2-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_2(this.value)"></form></td>
-                    <td id="upgrade-slime-bank-cap-2-value">$value</td>
+                    <td>Silme Coin Cap 2</td>
+                    <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-2-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_2(this.value)"></form></td>
+                    <td id="slime-bank-upgrade-slime-coin-cap-2-value">$value</td>
                 </tr>
                 <tr>
-                    <td colspan="2">Slime Gold Cap</td>
-                    <td id="slime-bank-gold-cap-value">$value</td>
+                    <td colspan="3" class="tablehead">SUMMARY</td>
+
                 </tr>
                 <tr>
-                    <td colspan="2">Intrest</td>
+                    <td colspan="2">Slime Coin Cap Total</td>
+                    <td id="slime-bank-slime-coin-cap-value">$value</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Slime Coin Intrest</td>
                     <td id="slime-bank-intrest">$value</td>
                 </tr>
                 <tr>
                     <td>Cost to upgrade 1 level</td>
-                    <td><form><input type="text" id="upgrade-slime-bank-cap-1-cost" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_1_Cost(this.value)"></form></td>
+                    <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-1-cost" value="10000" onchange="Slime_Bank_Upgrade_Slime_Coin_Cap_1_Cost(this.value)"></form></td>
                     <td id="slime-bank-optimiser">$value</td>
                 </tr>
             </table>

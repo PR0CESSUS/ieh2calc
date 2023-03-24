@@ -2,8 +2,22 @@ body {
     background-color: whitesmoke;
 }
 
+div {
+    background-color: silver;
+}
+
+
+.tablehead {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
 form {
     margin: 0;
+}
+
+table {
+    color: #222222;
 }
 
 tr {
@@ -12,7 +26,7 @@ tr {
 }
 
 td {
-    margin: 2 2 2 2;
+    margin: 0;
     padding: 5 5 2 5;
     /* padding-right: 0;
     padding-left: 0; */
