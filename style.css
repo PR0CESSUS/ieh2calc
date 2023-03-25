@@ -1,15 +1,20 @@
 body {
-    background-color: whitesmoke;
+    background-color: white;
 }
 
 div {
-    background-color: silver;
+    background-color: #f3f3f6;
 }
 
+#slime-bank-calculator {
+    text-align: center;
+}
 
 .tablehead {
     font-weight: bold;
     border-bottom: 1px solid black;
+    font-size: large;
+    color: #000000;
 }
 
 form {
@@ -17,7 +22,8 @@ form {
 }
 
 table {
-    color: #222222;
+    color: #586e75;
+    font-family: monospace; 
 }
 
 tr {
