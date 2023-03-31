@@ -21,9 +21,9 @@ function load() {
       Upgrade_Slime_Bank_Gold_Cap_2(localStorage.getItem('slime-bank-upgrade-slime-coin-cap-2-level'));
     } else {Upgrade_Slime_Bank_Gold_Cap_2(0);}
 
-    if (localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-cost')) {
-      document.getElementById('slime-bank-upgrade-slime-coin-cap-1-cost').value = localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-cost'); 
-    } else {}
+    // if (localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-cost')) {
+    //   document.getElementById('slime-bank-upgrade-slime-coin-cap-1-cost').value = localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-cost'); 
+    // } else {}
 
     // regex.replace();
   // 14.63K
@@ -104,9 +104,11 @@ function Slime_Bank_Optimiser() {
   slime_coin_cap_1_level = localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-level');
   intrest = localStorage.getItem('slime-bank-intrest') - localStorage.getItem('slime-bank-intrest') * 0.1;
 
-    if (slime_coin_cap_1_level >= 100000000) {slime_coin_cap_1_cost = 100000000000000;} // 100T
-    else if (slime_coin_cap_1_level >= 50000000) {slime_coin_cap_1_cost = 10000000000000;} // 10T
-    else if (slime_coin_cap_1_level >= 10000000) {slime_coin_cap_1_cost = 1000000000000;} // 1T
+    if (slime_coin_cap_1_level >= 1000000000) {slime_coin_cap_1_cost =     10000000000000000;} // 1.00+E16
+    else if (slime_coin_cap_1_level >= 500000000) {slime_coin_cap_1_cost = 1000000000000000;} // 1.00+E15
+    else if (slime_coin_cap_1_level >= 100000000) {slime_coin_cap_1_cost = 100000000000000;} // 100T
+    else if (slime_coin_cap_1_level >= 50000000) {slime_coin_cap_1_cost =  10000000000000;} // 10T
+    else if (slime_coin_cap_1_level >= 10000000) {slime_coin_cap_1_cost =  1000000000000;} // 1T
     else { slime_coin_cap_1_cost = 10000;} // need to find solution for less than 10M upgrades
 
   document.getElementById('slime-bank-upgrade-slime-coin-cap-1-cost').value = convert(slime_coin_cap_1_cost);
