@@ -12,7 +12,7 @@ function load() {
     } else {Research_Slime_Bank_Leaf(0);}
 
     if (localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-level')) {
-      document.getElementById('slime-bank-upgrade-slime-coin-cap-1-level').value = localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-level');
+      document.getElementById('slime-bank-upgrade-slime-coin-cap-1-level').value = convert(localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-level'));
       Upgrade_Slime_Bank_Gold_Cap_1(localStorage.getItem('slime-bank-upgrade-slime-coin-cap-1-level'));
     } else {Upgrade_Slime_Bank_Gold_Cap_1(0);}
 
