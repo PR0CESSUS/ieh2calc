@@ -1,131 +1,214 @@
 <html>
-    <head>
-        <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
-        <title>IEH2calc</title>
-        <script src="./script.js"></script>
-        <link rel="stylesheet" href="./style.css">
+<head>
+    <title>IEH2calc</title>
+    <script src="./script.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Noto Sans JP' rel='stylesheet'>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body onload="load();">
 
-
-
-    </head>
-    <body onload="load();">
-        <h1>IEH2calc</h1>
+    <div class="wrapper">
+        <div class="header"><h1>IEH2calc</h1></div>
+        <div class="sidebar">
+            <form>
+                <button id="slime-bank" class="headeritem" onclick="currentTab(this.id)">Slime Bank</button>
+                <hr>
+                <button id="lab" class="headeritem" onclick="currentTab(this.id)">Lab (WIP)</button>
+                <hr>
+                <button id="anvil" class="headeritem" onclick="currentTab(this.id)">Anvil</button>
+                <hr>
+                <!-- <button id="lab" class="headeritem" onclick="currentTab(this.id)">Quest</button> -->
+            </form>
+        </div>
+        <div class="content">
+            <div id="slime-bank-calculator">
+                <h2>Slime Bank Intrest Calculator</h2>
+                <table>
+                    <tr>
+                        <td class="tablehead">RESEARCH</td>
+                        <td class="tablehead">Level</td>
+                        <td class="tablehead">Value</td>
+                    </tr>
+                    <tr>
+                        <td>Slime Bank (Stone)</td>
+                        <td>
+                        <form><input type="number" min="0" max="120" id="slime-bank-research-stone-level"  value="0" onchange="Research_Slime_Bank_Stone(this.value)"></form>    
+                        </td>
+                        <td id="slime-bank-research-stone-value">$value</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Slime Bank (Leaf)</td>
+                        <td><form><input type="number" min="0" max="120" id="slime-bank-research-leaf-level" value="0" onchange="Research_Slime_Bank_Leaf(this.value)"></form></td>
+                        <td id="slime-bank-research-leaf-value">$value</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="tablehead">UPGRADE</td>
+                    </tr>
+                    <tr>
+                        <td>Silme Coin Cap 1</td>
+                        <td><form><input type="text" title="Keep in mind that values higher than 10M take some time to compute" id="slime-bank-upgrade-slime-coin-cap-1-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_1(this.value)"></form></td>
+                        <td id="slime-bank-upgrade-slime-coin-cap-1-value">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Silme Coin Cap 1 Cost</td>
+                        <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-1-cost" disabled="true" value="10000" onchange="Slime_Bank_Upgrade_Slime_Coin_Cap_1_Cost(this.value)"></form></td>
+                        <!-- <td id="slime-bank-optimiser">$value</td> -->
+                    </tr>
+                    <tr>
+                        <td>Silme Coin Cap 2</td>
+                        <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-2-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_2(this.value)"></form></td>
+                        <td id="slime-bank-upgrade-slime-coin-cap-2-value">$value</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="tablehead">SUMMARY</td>
         
-        <form style="display: none;">
-            <button class="headeritem">Slime Bank</button>
-            <button class="headeritem">Lab</button>
-        </form>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Slime Coin Cap Total</td>
+                        <td id="slime-bank-slime-coin-cap-value">$value</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Slime Coin Intrest</td>
+                        <td id="slime-bank-intrest">$value</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Multiplier</td>
+                        <td id="slime-bank-optimiser">$value</td>
+                    </tr>
+                </table>
+                <!-- <p id="test">$value</p>
+                <p id="test2">$value2</p>
+                <p id="test3">$value3</p> -->
+        
+            </div>
+            <div id="lab-calculator" style="display: none;">
+                <h2>Lab Calculator</h2>
+                <table>
+                    <tr>
+                        <td class="tablehead">RESEARCH</td>
+                        <td class="tablehead">LEVEL</td>
+                        <td class="tablehead">VALUE</td>
+                        <td class="tablehead">CATALYST</td>
+                    </tr>
+                    <tr>
+                        <td>Alchemist's Hut (Crystal)</td>
+                        <td><form><input type="text" value="0"></form></td>
+                        <td>$value</td>
+                        <td><form>Slime <input type="text" value="0"></form></td>
+                    </tr>
+                    <tr>
+                        <td>Mystic Arena (Leaf)</td>
+                        <td><form><input type="text" value="0"></form></td>
+                    </tr>
+                    <tr>
+                        <td class="tablehead" colspan="3">LAB UPGRADE</td>
+                    </tr>
+                    <tr>
+                        <td>Essence Hoarder</td>
+                        <td><form><input type="text" value="0"></form></td>
+                    </tr>
+                    <tr>
+                        <td>Material Thrift</td>
+                        <td><form><input type="text" value="0"></form></td>
+                    </tr>
+                    <tr>
+                        <td>Mission Milestone 140</td>
+                        <td><form><input type="checkbox" value="test"></form></td>
+                    </tr>
+                    <tr>
+                        <td>Mission Milestone 1600</td>
+                        <td><form><input type="checkbox" value="test"></form></td>
+                    </tr>                    
+                </table>
+                
+        
+                
+            </div>
+            <div id="anvil-calculator">
+                <h2>Anvil Calculator</h2>
+                <table>
+                    <tr>
+                        <td>Nitro</td>
+                        <td><form><input id="anvil-nitro-speed" type="number" min="1.5" max="5.0" step="0.1" value="1" onchange="calc_anvil_save(this.id)"></form></td>
+                    </tr>
+                    <tr>
+                        <td class="tablehead">Dungeon</td>
+                        <td class="tablehead">Time to complete (s)</td>
+                        <td class="tablehead">Reward</td>
+                        <td class="tablehead">Per Hour</td>
+                    </tr>
+                    <tr>
+                        <td>Fox 1</td>
+                        <td><form><input id="anvil-fox-dungeon-1-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-fox-dungeon-1-reward" class="percent">0.1</td>
+                        <td id="anvil-fox-dungeon-1-value" class="percent">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Fox 2</td>
+                        <td><form><input id="anvil-fox-dungeon-2-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-fox-dungeon-2-reward" class="percent">0.2</td>
+                        <td id="anvil-fox-dungeon-2-value" class="percent">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Fox 3</td>
+                        <td><form><input id="anvil-fox-dungeon-3-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-fox-dungeon-3-reward" class="percent">0.3</td>
+                        <td id="anvil-fox-dungeon-3-value" class="percent">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Fox 4</td>
+                        <td><form><input id="anvil-fox-dungeon-4-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-fox-dungeon-4-reward" class="percent">0.4</td>
+                        <td id="anvil-fox-dungeon-4-value" class="percent">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Fox 5</td>
+                        <td><form><input id="anvil-fox-dungeon-5-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-fox-dungeon-5-reward" class="percent">0.5</td>
+                        <td id="anvil-fox-dungeon-5-value" class="percent">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Spider / Bat 1</td>
+                        <td><form><input id="anvil-bat-dungeon-1-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-bat-dungeon-1-reward">5</td>
+                        <td id="anvil-bat-dungeon-1-value">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Spider / Bat 2</td>
+                        <td><form><input id="anvil-bat-dungeon-2-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-bat-dungeon-2-reward">10</td>
+                        <td id="anvil-bat-dungeon-2-value">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Spider / Bat 3</td>
+                        <td><form><input id="anvil-bat-dungeon-3-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-bat-dungeon-3-reward">15</td>
+                        <td id="anvil-bat-dungeon-3-value">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Spider / Bat 4</td>
+                        <td><form><input id="anvil-bat-dungeon-4-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-bat-dungeon-4-reward">20</td>
+                        <td id="anvil-bat-dungeon-4-value">$value</td>
+                    </tr>
+                    <tr>
+                        <td>Spider / Bat  5</td>
+                        <td><form><input id="anvil-bat-dungeon-5-time" type="text" value="0" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td id="anvil-bat-dungeon-5-reward">25</td>
+                        <td id="anvil-bat-dungeon-5-value">$value</td>
+                    </tr>
+                </table>
 
-        <div id="slime-bank-calculator">
-            <h2>Slime Bank Intrest Calculator</h2>
-            <table>
-                <tr>
-                    <td class="tablehead">RESEARCH</td>
-                    <td class="tablehead">Level</td>
-                    <td class="tablehead">Value</td>
-                </tr>
-                <tr>
-                    <td>Slime Bank (Stone)</td>
-                    <td>
-                    <form><input type="number" min="0" max="120" id="slime-bank-research-stone-level"  value="0" onchange="Research_Slime_Bank_Stone(this.value)"></form>    
-                    </td>
-                    <td id="slime-bank-research-stone-value">$value</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Slime Bank (Leaf)</td>
-                    <td><form><input type="number" min="0" max="120" id="slime-bank-research-leaf-level" value="0" onchange="Research_Slime_Bank_Leaf(this.value)"></form></td>
-                    <td id="slime-bank-research-leaf-value">$value</td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="tablehead">UPGRADE</td>
-                </tr>
-                <tr>
-                    <td>Silme Coin Cap 1</td>
-                    <td><form><input type="text" title="Keep in mind that values higher than 10M take some time to compute" id="slime-bank-upgrade-slime-coin-cap-1-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_1(this.value)"></form></td>
-                    <td id="slime-bank-upgrade-slime-coin-cap-1-value">$value</td>
-                </tr>
-                <tr>
-                    <td>Silme Coin Cap 1 Cost</td>
-                    <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-1-cost" disabled="true" value="10000" onchange="Slime_Bank_Upgrade_Slime_Coin_Cap_1_Cost(this.value)"></form></td>
-                    <!-- <td id="slime-bank-optimiser">$value</td> -->
-                </tr>
-                <tr>
-                    <td>Silme Coin Cap 2</td>
-                    <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-2-level" value="0" onchange="Upgrade_Slime_Bank_Gold_Cap_2(this.value)"></form></td>
-                    <td id="slime-bank-upgrade-slime-coin-cap-2-value">$value</td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="tablehead">SUMMARY</td>
-
-                </tr>
-                <tr>
-                    <td colspan="2">Slime Coin Cap Total</td>
-                    <td id="slime-bank-slime-coin-cap-value">$value</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Slime Coin Intrest</td>
-                    <td id="slime-bank-intrest">$value</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Multiplier</td>
-                    <td id="slime-bank-optimiser">$value</td>
-                </tr>
-            </table>
-            <!-- <p id="test">$value</p>
-            <p id="test2">$value2</p>
-            <p id="test3">$value3</p> -->
-
+            </div>
         </div>
-
-        <div style="display: none;">
-            <h2>Lab Calculator</h2>
-            <table>
-                <tr>
-                    <td class="tablehead">RESEARCH</td>
-                    <td class="tablehead">LEVEL</td>
-                    <td class="tablehead">VALUE</td>
-                    <td class="tablehead">CATALYST</td>
-                </tr>
-                <tr>
-                    <td>Alchemist's Hut (Crystal)</td>
-                    <td><form><input type="text" value="0"></form></td>
-                    <td>$value</td>
-                    <td><form>Slime <input type="text" value="0"></form></td>
-                </tr>
-                <tr>
-                    <td>Mystic Arena (Leaf)</td>
-                    <td><form><input type="text" value="0"></form></td>
-                </tr>
-                <tr>
-                    <td class="tablehead" colspan="3">LAB UPGRADE</td>
-                </tr>
-                <tr>
-                    <td>Essence Hoarder</td>
-                    <td><form><input type="text" value="0"></form></td>
-                </tr>
-                <tr>
-                    <td>Material Thrift</td>
-                    <td><form><input type="text" value="0"></form></td>
-                </tr>
-                <tr>
-                    <td>Mission Milestone 140</td>
-                    <td><form><input type="checkbox" value="test"></form></td>
-                </tr>
-                <tr>
-                    <td>Mission Milestone 1600</td>
-                    <td><form><input type="checkbox" value="test"></form></td>
-                </tr>                    
-            </table>
-            
+        <div class="footer">
+            version: 0.0.7
+            <form style="display: inline;"><input type="button" value="Clear localStorage" onclick="restart()"></form>
 
             
         </div>
-        <footer>
-            <p>version: 0.0.6<br>
-            <form style="display: block;"><input type="button" value="Clear localStorage" onclick="restart()"></form>
-          </footer>
-    </body>
+    </div>
 
-
+</body>
 </html>
