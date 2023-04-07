@@ -78,9 +78,11 @@ function calc_anvil() {
     id = 'anvil-dungeon-' + i + '-time';
     value = 'anvil-dungeon-' + i + '-value';
     time = 'anvil-dungeon-' + i + '-time';
+    orb = 'anvil-dungeon-' + i + '-orb';
     reward = document.getElementById('anvil-dungeon-' + i + '-reward').innerHTML;
     document.getElementById(id).value = localStorage.getItem(id);
     document.getElementById(value).innerHTML = Math.round(3600 / document.getElementById(time).value * reward * nitro);
+    document.getElementById(orb).innerHTML = Math.round(3600 / document.getElementById(time).value);
   }
 
 
