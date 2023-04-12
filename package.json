@@ -1,0 +1,26 @@
+{
+  "name": "ieh2calc",
+  "version": "0.1.0",
+  "description": "Calcualtor for Incremental Epic Hero 2",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pro-cess-us/ieh2calc.git"
+  },
+  "author": "Processus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pro-cess-us/ieh2calc/issues"
+  },
+  "homepage": "https://github.com/pro-cess-us/ieh2calc#readme",
+  "devDependencies": {
+    "expose-loader": "^4.1.0",
+    "imports-loader": "^4.0.1",
+    "webpack": "^5.78.0",
+    "webpack-cli": "^5.0.1"
+  }
+}

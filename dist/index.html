@@ -1,12 +1,13 @@
 <html>
 <head>
     <title>IEH2calc</title>
-    <meta name="google-site-verification" content="OFEpMVryKhTLGvdRn_IgWeEW2Tq4fFXay8y45ead_pw" />
-    <script src="./script.js"></script>
+    <!-- <script src="./expedition.js"></script> -->
+    <script src="main.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Noto Sans JP' rel='stylesheet'>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
-<body onload="load();">
+<body>
+<!-- <body> -->
 
     <div class="wrapper">
         <div class="header"><h1>IEH2calc</h1></div>
@@ -15,6 +16,8 @@
                 <button id="slime-bank" class="headeritem" onclick="currentTab(this.id)">Slime Bank</button>
                 <hr>
                 <button id="lab" class="headeritem" onclick="currentTab(this.id)">Lab (WIP)</button>
+                <hr>
+                <button id="expedition" class="headeritem" onclick="currentTab(this.id)">Expedition</button>
                 <hr>
                 <button id="anvil" class="headeritem" onclick="currentTab(this.id)">Anvil</button>
                 <hr>
@@ -33,14 +36,14 @@
                     <tr>
                         <td>Slime Bank (Stone)</td>
                         <td>
-                        <form><input type="number" min="0" max="120" id="slime-bank-research-stone-level"  value="0" onchange="Slime_Bank_Research_Stone(this.value)"></form>    
+                        <form><input type="number" min="0" max="120" id="slime-bank-research-stone-level"  value="0" onchange="slimeBankResearchStone(this.value)"></form>    
                         </td>
                         <td id="slime-bank-research-stone-value" class="percent">$value</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Slime Bank (Leaf)</td>
-                        <td><form><input type="number" min="0" max="120" id="slime-bank-research-leaf-level" value="0" onchange="Slime_Bank_Research_Leaf(this.value)"></form></td>
+                        <td><form><input type="number" min="0" max="120" id="slime-bank-research-leaf-level" value="0" onchange="slimeBankResearchLeaf(this.value)"></form></td>
                         <td id="slime-bank-research-leaf-value" class="percent">$value</td>
                     </tr>
                     <tr>
@@ -48,7 +51,7 @@
                     </tr>
                     <tr>
                         <td>Silme Coin Cap 1</td>
-                        <td><form><input type="text" title="Keep in mind that values higher than 10M take some time to compute" id="slime-bank-upgrade-slime-coin-cap-1-level" value="0" onchange="Slime_Bank_Slime_Coin_Cap_1(this.value)"></form></td>
+                        <td><form><input type="text" title="Keep in mind that values higher than 10M take some time to compute" id="slime-bank-upgrade-slime-coin-cap-1-level" value="0" onchange="slimeBankSlimeCoinCap1(this.value)"></form></td>
                         <td id="slime-bank-upgrade-slime-coin-cap-1-value">$value</td>
                     </tr>
                     <tr>
@@ -58,7 +61,7 @@
                     </tr>
                     <tr>
                         <td>Silme Coin Cap 2</td>
-                        <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-2-level" value="0" onchange="Slime_Bank_Slime_Coin_Cap_2(this.value)"></form></td>
+                        <td><form><input type="text" id="slime-bank-upgrade-slime-coin-cap-2-level" value="0" onchange="slimeBankSlimeCoinCap2(this.value)"></form></td>
                         <td id="slime-bank-upgrade-slime-coin-cap-2-value" class="percent">$value</td>
                     </tr>
                     <tr>
@@ -83,7 +86,7 @@
                 <p id="test3">$value3</p> -->
         
             </div>
-            <div id="lab-calculator" style="display: none;">
+            <div id="lab-calculator">
                 <h2>Lab Calculator</h2>
                 <table>
                     <tr>
@@ -126,12 +129,99 @@
         
                 
             </div>
+            <div id="expedition-calculator">               
+                <h2>Expedition Calculator</h2>
+                <table>
+                    <!-- <tr>
+                        <td>Nitro</td>
+                        <td><form><input id="anvil-nitro-speed" type="number" min="1.5" max="5.0" step="0.1" value="1" onchange="anvilSave(this.id)"></form></td>
+                    </tr> -->
+                    <tr>
+                        <td>Adventure Party Speed Effect</td>
+                        <td class="percent"><form style="display: inline;"><input id="expedition-speed-bonus-1" type="text" value="0" size="5" onchange="expeditionSave(this.id)"></form></td>
+                    </tr>
+                    <tr>
+                        <td>Expedition Levels 175</td>
+                        <td><form><input id="expedition-speed-bonus-2" type="checkbox" onchange="expeditionSave(this.id)"></form></td>
+                    </tr>
+                    <tr>
+                        <td>Expedition Levels 225</td>
+                        <td><form><input id="expedition-speed-bonus-3" type="checkbox" checked="false" onchange="expeditionSave(this.id)"></form></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td class="tablehead">Team #</td>
+                        <td class="tablehead">Team Level</td>
+                        <td class="tablehead">Speed</td>
+                        <td class="tablehead">Best Duration</td>
+                    </tr>
+                    <tr>
+                        <td>Team 1</td>
+                        <td><form><input id="expedition-team-1-level" type="text" value="0" size="13" onchange="expeditionSave(this.id);"></form></td>
+                        <td id="expedition-team-1-speed">0.1</td>
+                        <td id="expedition-team-1-time">$value</td>
+
+                    </tr>
+                    <tr>
+                        <td>Team 2</td>
+                        <td><form><input id="expedition-team-2-level" type="text" value="0" size="13" onchange="expeditionSave(this.id);"></form></td>
+                        <td id="expedition-team-2-speed">0.2</td>
+                        <td id="expedition-team-2-time">$value</td>
+
+                    </tr>
+                    <tr>
+                        <td>Team 3</td>
+                        <td><form><input id="expedition-team-3-level" type="text" value="0" size="13" onchange="expeditionSave(this.id);"></form></td>
+                        <td id="expedition-team-3-speed">0.3</td>
+                        <td id="expedition-team-3-time">$value</td>
+
+                    </tr>
+                    <tr>
+                        <td>Team 4</td>
+                        <td><form><input id="expedition-team-4-level" type="text" value="0" size="13" onchange="expeditionSave(this.id);"></form></td>
+                        <td id="expedition-team-4-speed">0.4</td>
+                        <td id="expedition-team-4-time">$value</td>
+
+                    </tr>
+                    <tr>
+                        <td>Team 5</td>
+                        <td><form><input id="expedition-team-5-level" type="text" value="0" size="13" onchange="expeditionSave(this.id);"></form></td>
+                        <td id="expedition-team-5-speed">0.5</td>
+                        <td id="expedition-team-5-time">$value</td>
+
+                    </tr>
+                    <tr>
+                        <td>Team 6</td>
+                        <td><form><input id="expedition-team-6-level" type="text" value="0" size="13" onchange="expeditionSave(this.id);"></form></td>
+                        <td id="expedition-team-6-speed">5</td>
+                        <td id="expedition-team-6-time">$value</td>
+
+                    </tr>
+                    <tr>
+                        <td>Team 7</td>
+                        <td><form><input id="expedition-team-7-level" type="text" value="0" size="13" onchange="expeditionSave(this.id);"></form></td>
+                        <td id="expedition-team-7-speed">10</td>
+                        <td id="expedition-team-7-time">$value</td>
+
+                    </tr>
+                    <tr>
+                        <td>Team 8</td>
+                        <td><form><input id="expedition-team-8-level" type="text" value="0" size="13" onchange="expeditionSave(this.id);"></form></td>
+                        <td id="expedition-team-8-speed">15</td>
+                        <td id="expedition-team-8-time">$value</td>
+
+                    </tr>
+
+                </table>
+
+            </div>
             <div id="anvil-calculator">
                 <h2>Anvil Calculator</h2>
                 <table>
                     <tr>
                         <td>Nitro</td>
-                        <td><form><input id="anvil-nitro-speed" type="number" min="1.5" max="5.0" step="0.1" value="1" onchange="calc_anvil_save(this.id)"></form></td>
+                        <td><form><input id="anvil-nitro-speed" type="number" min="1.5" max="5.0" step="0.1" value="1" onchange="anvilSave(this.id)"></form></td>
                     </tr>
                     <tr>
                         <td class="tablehead">Dungeon</td>
@@ -142,70 +232,70 @@
                     </tr>
                     <tr>
                         <td>Fox 1</td>
-                        <td><form><input id="anvil-dungeon-1-time" type="text" value="1" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-1-time" type="text" value="1" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-1-reward" class="percent">0.1</td>
                         <td id="anvil-dungeon-1-value" class="percent">$value</td>
                         <td id="anvil-dungeon-1-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Fox 2</td>
-                        <td><form><input id="anvil-dungeon-2-time" type="text" value="2" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-2-time" type="text" value="2" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-2-reward" class="percent">0.2</td>
                         <td id="anvil-dungeon-2-value" class="percent">$value</td>
                         <td id="anvil-dungeon-2-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Fox 3</td>
-                        <td><form><input id="anvil-dungeon-3-time" type="text" value="3" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-3-time" type="text" value="3" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-3-reward" class="percent">0.3</td>
                         <td id="anvil-dungeon-3-value" class="percent">$value</td>
                         <td id="anvil-dungeon-3-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Fox 4</td>
-                        <td><form><input id="anvil-dungeon-4-time" type="text" value="4" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-4-time" type="text" value="4" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-4-reward" class="percent">0.4</td>
                         <td id="anvil-dungeon-4-value" class="percent">$value</td>
                         <td id="anvil-dungeon-4-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Fox 5</td>
-                        <td><form><input id="anvil-dungeon-5-time" type="text" value="5" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-5-time" type="text" value="5" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-5-reward" class="percent">0.5</td>
                         <td id="anvil-dungeon-5-value" class="percent">$value</td>
                         <td id="anvil-dungeon-5-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Spider / Bat 1</td>
-                        <td><form><input id="anvil-dungeon-6-time" type="text" value="1" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-6-time" type="text" value="1" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-6-reward">5</td>
                         <td id="anvil-dungeon-6-value">$value</td>
                         <td id="anvil-dungeon-6-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Spider / Bat 2</td>
-                        <td><form><input id="anvil-dungeon-7-time" type="text" value="2" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-7-time" type="text" value="2" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-7-reward">10</td>
                         <td id="anvil-dungeon-7-value">$value</td>
                         <td id="anvil-dungeon-7-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Spider / Bat 3</td>
-                        <td><form><input id="anvil-dungeon-8-time" type="text" value="3" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-8-time" type="text" value="3" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-8-reward">15</td>
                         <td id="anvil-dungeon-8-value">$value</td>
                         <td id="anvil-dungeon-8-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Spider / Bat 4</td>
-                        <td><form><input id="anvil-dungeon-9-time" type="text" value="4" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-9-time" type="text" value="4" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-9-reward">20</td>
                         <td id="anvil-dungeon-9-value">$value</td>
                         <td id="anvil-dungeon-9-orb">$value</td>
                     </tr>
                     <tr>
                         <td>Spider / Bat  5</td>
-                        <td><form><input id="anvil-dungeon-10-time" type="text" value="5" size="13" onchange="calc_anvil_save(this.id);"></form></td>
+                        <td><form><input id="anvil-dungeon-10-time" type="text" value="5" size="13" onchange="anvilSave(this.id);"></form></td>
                         <td id="anvil-dungeon-10-reward">25</td>
                         <td id="anvil-dungeon-10-value">$value</td>
                         <td id="anvil-dungeon-10-orb">$value</td>
@@ -215,7 +305,7 @@
             </div>
         </div>
         <div class="footer">          
-            <a href="https://github.com/pro-cess-us/ieh2calc">Github Repository Page</a> | version: 0.0.8 | <form style="display: inline;"><input type="button" value="Clear localStorage" onclick="restart()"></form><br>
+            <a href="https://github.com/pro-cess-us/ieh2calc">Github Repository Page</a> | version: 0.1.0 | <form style="display: inline;"><input type="button" value="Clear localStorage" onclick="restart()"></form><br>
             
 
 
