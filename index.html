@@ -3,6 +3,7 @@
     <title>IEH2calc</title>
     <!-- <script src="./expedition.js"></script> -->
     <script src="./main.js"></script>
+    <script src="./src/debug.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Noto Sans JP' rel='stylesheet'>
     <link rel="stylesheet" href="./style.css">
 </head>
@@ -304,8 +305,18 @@
 
             </div>
         </div>
-        <div class="footer">          
-            <a href="https://github.com/pro-cess-us/ieh2calc">Github Repository Page</a> | version: 0.1.0 | <form style="display: inline;"><input type="button" value="Clear localStorage" onclick="restart()"></form><br>
+        <div id="footer" class="footer">          
+            <a href="https://github.com/pro-cess-us/ieh2calc">Github Repository Page</a> | version: 0.1.1 
+            <!-- <form>
+                <fieldset>
+                    <legend>Debugging Tools</legend>
+                <input type="button" value="Clear localStorage" onclick="restart()">
+                <input type="button" value="Save data to file" onclick="saveToFile()">
+                <label for="file-input" id="file-input-label">Load data from file</label>
+                <input type="file" id="file-input" accept=".json" style="display: none;" />
+
+            </fieldset>
+            </form> -->
             
 
 

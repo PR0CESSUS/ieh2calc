@@ -28,7 +28,7 @@ function convert(input) {
   } else if (input < 1000000000) {
     output = (input / 1000000).toFixed(2) + "M";
   } else if (input < 1000000000000) {
-    output = (input / 1000000000).toFixed(2) + "B";
+    output = (input / 1000000000).toFixed(3) + "B";
   } else if (input < 1000000000000000) {
     output = (input / 1000000000000).toFixed(2) + "T";
   } else {
