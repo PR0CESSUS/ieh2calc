@@ -1,6 +1,10 @@
+import { convert2 } from "./common.js";
+
 function expeditionSave(input) {
   if (document.getElementById(input).type == "text") {
-    localStorage.setItem(input, document.getElementById(input).value);
+    let value = convert2(document.getElementById(input).value, 100);
+    localStorage.setItem(input, value);
+    document.getElementById(input).value = value;
     // console.log('text');
   } else if (document.getElementById(input).type == "checkbox") {
     localStorage.setItem(input, document.getElementById(input).checked);

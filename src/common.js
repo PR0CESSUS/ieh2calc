@@ -39,14 +39,23 @@ function convert(input) {
 }
 
 // convert k,m,b,t to normal numbers
-function convert2(input) {
+function convert2(input, min = 0, max = 999999999999999) {
+  input = input.replace(/,/g, "."); // convert , to .
   if (/^\d*\.?\d+$/.test(input)) {
-    return Math.round(input);
+    if (input < min) {
+      return min;
+    } else if (input > max) {
+      return max;
+    } else {
+      return input;
+    }
+    return input;
   } // return rounded number if there is no abbreviete
   else {
     const regex = /(.*)(\D)$/gm;
     input = input.toLowerCase();
-    input = input.replace(/ /g, ""); //removes all spaces
+    input = input.replace(/ /g, ""); // removes all spaces
+
     input = regex.exec(input);
     let output = 0;
     if (input[2] == "t") {

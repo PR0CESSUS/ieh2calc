@@ -54,8 +54,9 @@ function slimeBankOptimiser() {
       10000;
   } // need to find solution for less than 10M upgrades
 
-  document.getElementById("slime-bank-upgrade-slime-coin-cap-1-cost").value =
-    convert(slime_coin_cap_1_cost);
+  document.getElementById(
+    "slime-bank-upgrade-slime-coin-cap-1-cost"
+  ).innerHTML = convert(slime_coin_cap_1_cost);
   let output = Math.round(intrest / slime_coin_cap_1_cost);
   document.getElementById("slime-bank-optimiser").innerHTML = output;
 }

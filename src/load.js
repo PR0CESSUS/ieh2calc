@@ -17,6 +17,14 @@ function load() {
     tab_list.forEach((element) => {
       tab = element + "-calculator";
       if (localStorage.getItem("setting-currentTab") == element) {
+        const words = element.split("-");
+
+        for (let i = 0; i < words.length; i++) {
+          words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+        }
+
+        let title = "IEH2calc > " + words.join(" ") + " Calculator";
+        document.getElementById("title").innerHTML = title;
         document.getElementById(tab).style.display = "block";
         document.getElementById(element).style.color = "#f2e009";
       } else {

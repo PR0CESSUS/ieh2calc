@@ -1,6 +1,6 @@
 {
   "name": "ieh2calc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Calcualtor for Incremental Epic Hero 2",
   "private": true,
   "scripts": {
