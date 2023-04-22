@@ -20,11 +20,14 @@ async function loadTab(tab) {
   let myHeaders = new Headers();
   let file = "../html/" + tab + ".html";
 
-  // myHeaders.append("Content-Type", "text/xml");
+  myHeaders.append(
+    "content-security-policy:",
+    "default-src 'self'; style-src 'self' 'unsafe-inline' *; font-src 'self' *; connect-src 'self' *; img-src data: *"
+  );
   let options = {
     method: "GET",
     headers: myHeaders,
-    mode: "cors",
+    mode: "same-origin",
   };
   // let x = await fetch(file);
   // let y = await x.text();
