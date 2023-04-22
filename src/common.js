@@ -20,15 +20,15 @@ async function loadTab(tab) {
   let myHeaders = new Headers();
   let file = "../html/" + tab + ".html";
 
-  let options = {
-    method: "GET",
-    headers: myHeaders,
-    mode: "cors",
-  };
+  // let options = {
+  //   method: "GET",
+  //   headers: myHeaders,
+  //   mode: "cors",
+  // };
   // let x = await fetch(file);
   // let y = await x.text();
   // document.getElementById("content").innerHTML = y;
-  return fetch(file, options).then((response) => response.text());
+  return fetch(file).then((response) => response.text());
 }
 
 // ext.get = (url) => {
