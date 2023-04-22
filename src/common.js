@@ -18,7 +18,9 @@ function changeTab(input) {
 
 async function loadTab(tab) {
   let myHeaders = new Headers();
+  // https://pro-cess-us.github.io/ieh2calc/
   let file = "../html/" + tab + ".html";
+  // let file = "https://pro-cess-us.github.io/ieh2calc//html/" + tab + ".html";
 
   myHeaders.append("Content-Type", "text/plain");
   // myHeaders.append(
@@ -28,8 +30,8 @@ async function loadTab(tab) {
   let options = {
     method: "GET",
     headers: myHeaders,
-    mode: "no-cors",
-    referrerPolicy: "origin",
+    mode: "cors",
+    referrerPolicy: "same-origin",
   };
   // let x = await fetch(file);
   // let y = await x.text();
