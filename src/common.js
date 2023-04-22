@@ -28,6 +28,7 @@ async function loadTab(tab) {
     method: "GET",
     headers: myHeaders,
     mode: "same-origin",
+    referrerPolicy: "origin-when-cross-origin",
   };
   // let x = await fetch(file);
   // let y = await x.text();
