@@ -26,7 +26,7 @@ async function loadTab(tab) {
     file = "https://pro-cess-us.github.io/ieh2calc/html/" + tab + ".html";
   }
 
-  myHeaders.append("Content-Type", "text/plain");
+  // myHeaders.append("Content-Type", "text/plain");
   // myHeaders.append(
   //   "Content-Security-Policy:",
   //   "default-src 'self'; style-src 'self' 'unsafe-inline' *; font-src 'self' *; connect-src 'self' *; img-src data: *"
