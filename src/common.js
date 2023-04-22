@@ -1,11 +1,53 @@
-// debug
-function restart() {
-  window.localStorage.clear();
+function save() {
+  localStorage.setItem(this.id, this.value);
+  console.log(this);
 }
 
-function currentTab(input) {
-  localStorage.setItem("setting-currentTab", input);
+function restart() {
+  localStorage.clear();
+  location.reload();
 }
+
+function addEvent(id, event, callback) {
+  document.getElementById(id).addEventListener(event, callback);
+}
+
+function changeTab(input) {
+  localStorage.setItem("currentTab", input);
+}
+
+async function loadTab(tab) {
+  let myHeaders = new Headers();
+  let file = "../html/" + tab + ".html";
+
+  let options = {
+    method: "GET",
+    headers: myHeaders,
+    mode: "cors",
+  };
+  // let x = await fetch(file);
+  // let y = await x.text();
+  // document.getElementById("content").innerHTML = y;
+  return fetch(file, options).then((response) => response.text());
+}
+
+// ext.get = (url) => {
+//   let myHeaders = new Headers();
+
+//   let options = {
+//       method: 'GET',
+//       headers: myHeaders,
+//       mode: 'cors'
+//   };
+
+//   //fetch get
+
+//   return fetch(url, options).then(response => response.text());
+// };
+
+// ext.get("http://example.com").then((response) => {
+//   console.log(response); // or whatever
+// });
 
 function sigma(lowerBound, upperBound, iterator, accumulator = 0) {
   // let accumulator = 0;
@@ -72,4 +114,44 @@ function convert2(input, min = 0, max = 999999999999999) {
   }
 }
 
-export { convert, convert2, sigma, restart, currentTab };
+function saveToFile() {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(
+    new Blob([JSON.stringify(localStorage, null, 2)], {
+      type: "text/plain",
+    })
+  );
+  a.setAttribute("download", "IEH2calc-data.json");
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function loadFromFile() {
+  let file = document.getElementById("settings.loadFromFile").files[0];
+  let reader = new FileReader();
+  reader.addEventListener("load", function (e) {
+    let text = e.target.result;
+    //   document.querySelector("#file-contents").textContent = text;
+    console.log(JSON.parse(text));
+    for (const [key, value] of Object.entries({ ...JSON.parse(text) })) {
+      // console.log(`${key}: ${value}`);
+      localStorage.setItem(key, value);
+      location.reload();
+      // console.log(`${key}: ${value}`);
+    }
+  });
+  reader.readAsText(file);
+}
+
+export {
+  convert,
+  convert2,
+  sigma,
+  restart,
+  changeTab,
+  loadTab,
+  addEvent,
+  saveToFile,
+  loadFromFile,
+};

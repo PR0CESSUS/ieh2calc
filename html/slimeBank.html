@@ -1,0 +1,89 @@
+<div class="container-box">
+<h3>RESEARCH</h3> 
+<div class="box">
+    <h4>Slime Bank</h4>
+    <div class="research"><img class="icon" src="../img/stone.png">
+        Stone Research &lt; <i style="color: #01f304;">Lv </i><input class="input-active" type="number" min="0" max="120" id="research.stone.level" value="0"> &gt;
+        <span style="float:right;" id="research.stone.value" class="percent">$value</span>
+    </div>
+    <div class="research">
+        <img class="icon" src="../img/leaf.png">
+        Leaf Research &lt; <i style="color: #01f304;">Lv </i><input class="input-active" type="number" min="0" max="120" id="research.leaf.level" value="0"> &gt;
+        <span style="float:right;" id="research.leaf.value" class="percent">$value</span>
+    </div>
+</div>   
+<h3>MILESTONE</h3>
+<div style="margin-right: 50px;">
+<ul>
+    <li>
+        <input type="checkbox" id="milestone1800">
+        <label for="milestone1800">Milestone 1800 ( Slime Coin Intrest + 2.5% )</label>
+    </li>
+    <li>
+        <input type="checkbox" id="milestone2700" checked="true">
+        <label for="milestone2700">Milestone 2700 ( Slime Coin Intrest + 5.0% )</label>
+    </li>
+</ul>
+</div>
+<h3>BESTIARY</h3>
+<table class="pet-box">
+    <tr>
+        <td rowspan="3"><img src="/img/redflametiger.png"></td>
+        <td>Red Flametiger</td>
+        <td>Pet Passive Effect</td>
+    </tr>
+    <tr>
+        <td>Rank: <input type="text" class="input-active" value="0" id="pet1.rank"></td>
+        <td>- Multiplies Slime Coin Cap by <span class="green percent" id="pet1.passive">520.54</span></td>
+    </tr>
+    <tr>
+        <td>Loyalty: <input type="text" class="input-active" value="0" id="pet1.loyalty"></td>
+    </tr>
+</table>
+
+
+
+<h3>UPGRADE</h3>
+<table>
+    <tr>
+        <td>
+<div class="box" style="width: auto;">
+
+    <p>Slime Coin Cap 1 &lt; <i style="color: #01f304;">Lv</i>       
+    <input type="text"  class="input-active" id="slimeCoinCap1.level" value="0" size="8">
+        &gt;</p>
+    <p>- Effect : Increases Slime Coin Cap</p>
+    <p>&nbsp;- Current: <i id="slimeCoinCap1.value">$value</i></p>
+    <p>- Cost to Level Up: <img class="icon" src="../img/slimecoin.png" width="24"><i id="slimeCoinCap1.cost">$value</i></p>
+
+
+</div>
+        </td>
+        <td>
+    <div class="box" style="width: auto;">
+
+        <p>Slime Coin Cap 2 &lt; <i style="color: #01f304;">Lv</i> <input type="text" id="slimeCoinCap2.level" value="0" class="input-active" size="4"> &gt;</p>
+        <p>- Effect : Multiplies Slime Coin Cap</p>
+        <p>&nbsp;- Current: <i id="slimeCoinCap2.value" class="percent">$value</i></p>
+        <p>- Cost to Level Up: <img class="icon" src="../img/slimecoin.png" width="24">
+            <i id="slimeCoinCap2.cost">Unknown</i>
+        </p>
+        
+        
+            </div>                
+        </td>
+        </tr>
+
+
+    </table>
+    
+<div style="width: 630px;">
+<h3>SUMMARY</h3>
+<ul>
+<li><p>Slime Coin Cap Total: <span style="float:right;" id="slimeCoinCapTotal"></span></p></li>
+<li><p>Slime Coin Intrest: <span style="float:right;" id="slimeBank.intrest"></span></p></li>
+<li><p>Multiplier: <span style="float:right;" id="slimeBank.multiplier"></span></p></li>
+</ul>
+</div>       
+
+</div>
