@@ -21,10 +21,10 @@ async function loadTab(tab) {
   let file = "../html/" + tab + ".html";
 
   myHeaders.append("Content-Type", "text/plain");
-  // myHeaders.append(
-  //   "content-security-policy:",
-  //   "default-src 'self'; style-src 'self' 'unsafe-inline' *; font-src 'self' *; connect-src 'self' *; img-src data: *"
-  // );
+  myHeaders.append(
+    "Content-Security-Policy:",
+    "default-src 'self'; style-src 'self' 'unsafe-inline' *; font-src 'self' *; connect-src 'self' *; img-src data: *"
+  );
   let options = {
     method: "GET",
     headers: myHeaders,
