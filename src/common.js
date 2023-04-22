@@ -19,8 +19,12 @@ function changeTab(input) {
 async function loadTab(tab) {
   let myHeaders = new Headers();
   // https://pro-cess-us.github.io/ieh2calc/
+  // https://github.com/pro-cess-us/ieh2calc/raw/master/html/slimeBank.html
+  // let file = "../html/" + tab + ".html";
   let file = "../html/" + tab + ".html";
-  // let file = "https://pro-cess-us.github.io/ieh2calc//html/" + tab + ".html";
+  if (window.location.host != "127.0.0.1:3000") {
+    file = "https://github.com/pro-cess-us/ieh2calc/raw/master/html/" + tab + ".html";
+  }
 
   myHeaders.append("Content-Type", "text/plain");
   // myHeaders.append(
@@ -31,7 +35,7 @@ async function loadTab(tab) {
     method: "GET",
     headers: myHeaders,
     mode: "cors",
-    referrerPolicy: "same-origin",
+    // referrerPolicy: "same-origin",
   };
   // let x = await fetch(file);
   // let y = await x.text();
