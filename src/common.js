@@ -20,6 +20,7 @@ async function loadTab(tab) {
   let myHeaders = new Headers();
   let file = "../html/" + tab + ".html";
 
+  myHeaders.append("Content-Type", "text/plain");
   // myHeaders.append(
   //   "content-security-policy:",
   //   "default-src 'self'; style-src 'self' 'unsafe-inline' *; font-src 'self' *; connect-src 'self' *; img-src data: *"
