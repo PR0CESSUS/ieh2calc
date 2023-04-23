@@ -108,7 +108,7 @@ class SlimeBank {
     this.data.pet1.rank = document.getElementById("pet1.rank").value;
     this.data.pet1.loyalty = document.getElementById("pet1.loyalty").value;
     let loyalty = 2.5 * (parseFloat(this.data.pet1.loyalty) + 100) * 0.01;
-    this.data.pet1.passive = +(this.data.pet1.rank * loyalty).toFixed(2) + 100;
+    this.data.pet1.passive = parseFloat(this.data.pet1.rank * loyalty + 100).toFixed(2);
     this.slimeCoinCapTotal();
     this.display();
   }
@@ -193,7 +193,16 @@ class SlimeBank {
   slimeCoinCap1Cost() {
     // if ((double) this.level.value >= 500 000 000.0)
     // return 1E+15 * this.CostModifier();
-    if (this.data.slimeCoinCap1.level >= 1000000000) {
+    if (this.data.slimeCoinCap1.level >= 50000000000) {
+      this.data.slimeCoinCap1.cost = 10000000000000000000;
+    } // 1.00+E19
+    if (this.data.slimeCoinCap1.level >= 10000000000) {
+      this.data.slimeCoinCap1.cost = 1000000000000000000;
+    } // 1.00+E18
+    else if (this.data.slimeCoinCap1.level >= 5000000000) {
+      this.data.slimeCoinCap1.cost = 100000000000000000;
+    } // 1.00+E17
+    else if (this.data.slimeCoinCap1.level >= 1000000000) {
       this.data.slimeCoinCap1.cost = 10000000000000000;
     } // 1.00+E16
     else if (this.data.slimeCoinCap1.level >= 500000000) {
