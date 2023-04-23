@@ -186,7 +186,7 @@ class SlimeBank {
     }
     this.data.intrest = intrestPercent * this.data.slimeCoinCapTotal;
     this.data.multiplier = Math.round(this.data.intrest / this.data.slimeCoinCap1.cost);
-    this.data.multiplier -= this.data.multiplier * 0.15;
+    this.data.multiplier -= Math.round(this.data.multiplier * 0.15);
     // slimeBankOptimiser();
   }
 
