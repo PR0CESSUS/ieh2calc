@@ -157,7 +157,6 @@ export class Optimizer {
   }
 
   optimize() {
-    console.log("Optimizer.optimize() called");
     this.step1();
     this.step2();
   }
@@ -271,12 +270,12 @@ export class Optimizer {
             relEffects[effect.kind] = 0;
           }
           let itemEffectValue = this.calcItemEffectValue(effect);
-          relEffects[effect.kind] += itemEffectValue;
+          let enchantEffectValue = this.calcEnchantEffectValue(effect);
+          relEffects[effect.kind] += itemEffectValue / enchantEffectValue;
 
           //if we care about this effect, include in the ese
           if (this.enchantUsage[effect.kind]) {
-            ese.masteries +=
-              itemEffectValue / this.calcEnchantEffectValue(effect);
+            ese.masteries += itemEffectValue / enchantEffectValue;
           }
         }
       }
@@ -293,6 +292,7 @@ export class Optimizer {
     });
   }
 
+  totalEse = {};
   totalEseWithEnchants = {};
   bestEnchants = {};
   bestItems = {
@@ -328,9 +328,9 @@ export class Optimizer {
     return total;
   }
   step2() {
-    let totalEse = {};
     for (let effectKind in this.enchantUsage) {
-      totalEse[effectKind] = 0;
+      this.totalEse[effectKind] = 0;
+      this.bestEnchants[effectKind] = 0;
       if (this.enchantUsage[effectKind]) {
         this.totalEseWithEnchants[effectKind] = 0;
       }
@@ -367,7 +367,7 @@ export class Optimizer {
           continue;
         }
 
-        totalEse[effectKind] +=
+        this.totalEse[effectKind] +=
           item.relEffects[effectKind] * item.setEffectMult;
       }
     };
@@ -386,11 +386,11 @@ export class Optimizer {
         }
 
         //recalculate totalEse with changed set strength
-        for (let effectKind in totalEse) {
-          totalEse[effectKind] = 0;
+        for (let effectKind in this.totalEse) {
+          this.totalEse[effectKind] = 0;
         }
         for (let part in this.bestItems) {
-          for (let item in this.bestItems[part]) {
+          for (let item of this.bestItems[part]) {
             addItemToTotalEse(item);
           }
         }
@@ -405,8 +405,9 @@ export class Optimizer {
     const updateEse = () => {
       //reset totalEseWithEnchants
       this.totalEseWithEnchants = {};
-      for (let effectKind in totalEse) {
-        this.totalEseWithEnchants[effectKind] = totalEse[effectKind];
+      for (let effectKind in this.totalEse) {
+        this.bestEnchants[effectKind] = 0;
+        this.totalEseWithEnchants[effectKind] = this.totalEse[effectKind];
       }
 
       //calcualte the average set effect mult, new enchants will use this one
@@ -440,6 +441,7 @@ export class Optimizer {
         }
 
         //TODO include average setEffectMult
+        this.bestEnchants[lowestEffectKind] += 1;
         this.totalEseWithEnchants[lowestEffectKind] += averageSetEffectMult;
         enchantsToSpent--;
       }
@@ -513,19 +515,5 @@ export class Optimizer {
         return 0;
       });
     }
-
-    for (let effectKind in this.totalEseWithEnchants) {
-      if (this.enchantUsage[effectKind]) {
-        this.bestEnchants[effectKind] = Math.round(
-          this.totalEseWithEnchants[effectKind] - totalEse[effectKind]
-        );
-      }
-    }
-
-    console.log({
-      bestTotalEseWithEnchants: this.totalEseWithEnchants,
-      bestEnchants: this.bestEnchants,
-      bestItems: this.bestItems,
-    });
   }
 }
