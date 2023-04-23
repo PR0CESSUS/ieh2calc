@@ -1,6 +1,5 @@
 // const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-// const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.js",
@@ -8,10 +7,6 @@ module.exports = {
   //   new HtmlWebpackPlugin({
   //     template: "./src/template.html",
   //   }),
-  //   // new webpack.ProvidePlugin({
-  //   //   $: "jquery",
-  //   //   jQuery: "jquery",
-  //   // }),
   // ],
   module: {
     rules: [
