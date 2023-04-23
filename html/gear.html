@@ -1,20 +1,14 @@
 <style>
     #userInput {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
     }
     label {
         margin: 10px;
     }
+    input[type=number] {
+        width: 60px;
+    }
 
     #enchantUsageWrapper {
-        margin-top: 10px;
-    }
-    #enchantUsageInputWrapper {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
     }
     #enchantUsageInputWrapper > label {
         width: auto;
@@ -27,30 +21,64 @@
         display: block;
         margin: 10px;
     }
-    .result {
-        min-width: 100%;
-        min-height: 300px;
+
+    .mb10 {
+        margin-bottom: 10px;
+    }
+    .mb20 {
+        margin-bottom: 20px;
+    }
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
     }
 </style>
 
 <main>
     <h3>Settings</h3>
     <div id="userInput">
-        <label title="which item level to use for the effect strength">Item Level <input id="itemLevel" type="number" min="1" max="120" step="1" size="13"/></label>
-        <label title="are the items mastered?">Mastered <input id="includeMastery" type="checkbox" size="13"/></label>
-        <label title="are curse anvils applied to cursed items?">Maxed Curse Anvil <input id="curseAnvil" type="checkbox" size="13"/></label>
-        <label title="are enchants maxed using lottery scrolls?">Maxed Lottery <input id="lottery" type="checkbox" size="13"/></label>
-        <label title="how many Weapon to fill">Weapon Slots <input id="itemSlots.Weapon" type="text" size="13"/></label>
-        <label title="how many Armor to fill">Armor Slots <input id="itemSlots.Armor" type="text" size="13"/></label>
-        <label title="how many Jewelry to fill">Jewelry Slots <input id="itemSlots.Jewelry" type="text" size="13"/></label>
-        <label title="how many enchant slots to fill">Enchant Slots <input id="enchantSlots" type="text" size="13"/></label>
-        <label title="how highly we value to complete a set, 0.06 is usually ideal, but its worth playing around a little">Set Bias <input id="setBias" type="number" min="0" max="1" step="0.005" size="13"/></label>
+        <label title="are the items mastered?">
+            Mastered <input id="includeMastery" type="checkbox"/>
+        </label>
+        <label title="are curse anvils applied to cursed items?">
+            Maxed Curse Anvil <input id="curseAnvil" type="checkbox"/>
+        </label>
+        <label title="are enchants maxed using lottery scrolls?">
+            Maxed Lottery <input id="lottery" type="checkbox"/>
+        </label>
+        <br/>
+
+        <label title="how many Weapon to fill">
+            Weapon Slots <input id="itemSlots.Weapon" type="number" min="0" max="25" step="1" size="5"/>
+        </label>
+        <label title="how many Armor to fill">
+            Armor Slots <input id="itemSlots.Armor" type="number" min="0" max="25" step="1" size="5"/>
+        </label>
+        <label title="how many Jewelry to fill">
+            Jewelry Slots <input id="itemSlots.Jewelry" type="number" min="0" max="25" step="1" size="5"/>
+        </label>
+        <label title="how many enchant slots to fill">
+            Enchant Slots <input id="enchantSlots" type="number" min="0" max="25" step="1" size="5"/>
+        </label>
+        <br/>
+        
+        <label title="which item level to use for the effect strength">
+            Item Level <input id="itemLevel" type="number" min="1" max="120" step="1" size="5"/>
+        </label>
+
+        <label title="how highly we value to complete a set, 0.06 is usually ideal, but its worth playing around a little">
+            Set Bias <input id="setBias" type="number" min="0" max="1" step="0.005" size="5"/>
+        </label>
 
         <div id="enchantUsageWrapper">
             <h3 title="keep fields empty to ignore, enter anything to optimize for [WIP is to seperate between dps/gains, but it does not for now]">
                 Enchant Settings
             </h2>
-            <div id="enchantUsageInputWrapper">
+            <div id="enchantUsageInputWrapper" class="grid-3">
             
             </div>
         </div>
@@ -60,7 +88,38 @@
     <button id="optimize" type="button" class="button-orange">Optimize</button>
 
     <div id="optimizeResult">
+        <h4>Equipment</h4>
+        <div class="grid-3">
+            <div class="third">
+                Weapons
+            </div>
+            <div class="third">
+                Armor
+            </div>
+            <div class="third">
+                Jewelry
+            </div>
+        </div>
+        <div id="optimizeResultItems" class="grid-3 mb20">
+
+        </div>
+
+        <h4>Enchants</h4>
+        <div id="optimizeResultEnchants" class="grid-2 mb20">
+            
+        </div>
+
+        <h4>Sets</h4>
+        <div id="optimizeResultSetItems" class="grid-3 mb20">
+            
+        </div>
+
+        <h4>Enchant Spread</h4>
+        <div class="mb20">
+            <canvas id="optimizeResultTotalEseBarChart"></canvas>
+        </div>
         
+        <div id="optimizeResultDataDump"></div>
     </div>
 </main>
 
