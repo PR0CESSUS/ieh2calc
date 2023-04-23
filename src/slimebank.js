@@ -193,10 +193,39 @@ class SlimeBank {
   slimeCoinCap1Cost() {
     // if ((double) this.level.value >= 500 000 000.0)
     // return 1E+15 * this.CostModifier();
-    if (this.data.slimeCoinCap1.level >= 50000000000) {
+
+    // 500T
+    if (this.data.slimeCoinCap1.level >= 500000000000000) {
+      this.data.slimeCoinCap1.cost = 1000000000000000000000000000;
+    } // 1.00+E27
+    else if (this.data.slimeCoinCap1.level >= 100000000000000) {
+      // 100T
+      this.data.slimeCoinCap1.cost = 100000000000000000000000000;
+    } // 1.00+E26
+    else if (this.data.slimeCoinCap1.level >= 50000000000000) {
+      // 50T
+      this.data.slimeCoinCap1.cost = 10000000000000000000000000;
+    } // 1.00+E25
+    else if (this.data.slimeCoinCap1.level >= 10000000000000) {
+      // 10T
+      this.data.slimeCoinCap1.cost = 1000000000000000000000000;
+    } // 1.00+E24
+    else if (this.data.slimeCoinCap1.level >= 5000000000000) {
+      this.data.slimeCoinCap1.cost = 100000000000000000000000;
+    } // 1.00+E23
+    else if (this.data.slimeCoinCap1.level >= 1000000000000) {
+      this.data.slimeCoinCap1.cost = 10000000000000000000000;
+    } // 1.00+E22
+    else if (this.data.slimeCoinCap1.level >= 500000000000) {
+      this.data.slimeCoinCap1.cost = 1000000000000000000000;
+    } // 1.00+E21
+    else if (this.data.slimeCoinCap1.level >= 100000000000) {
+      this.data.slimeCoinCap1.cost = 100000000000000000000;
+    } // 1.00+E20
+    else if (this.data.slimeCoinCap1.level >= 50000000000) {
       this.data.slimeCoinCap1.cost = 10000000000000000000;
     } // 1.00+E19
-    if (this.data.slimeCoinCap1.level >= 10000000000) {
+    else if (this.data.slimeCoinCap1.level >= 10000000000) {
       this.data.slimeCoinCap1.cost = 1000000000000000000;
     } // 1.00+E18
     else if (this.data.slimeCoinCap1.level >= 5000000000) {
