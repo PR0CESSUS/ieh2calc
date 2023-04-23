@@ -2,6 +2,7 @@ import { loadTab, loadFromFile, addEvent, restart, saveToFile } from "./common.j
 import { Anvil } from "./anvil.js";
 // import { expeditionLoad } from "./expedition.js";
 import { SlimeBank } from "./slimebank.js";
+import { Gear } from "./gear/gear.js";
 // import "./style.css";
 
 const version = "0.1.2";
@@ -27,6 +28,7 @@ function load() {
     { id: "lab", name: "Lab Calculator" },
     { id: "anvil", name: "Anvil Calculator" },
     { id: "expedition", name: "Expedition Calculator" },
+    { id: "gear", name: "Gear Calculator" },
     { id: "settings", name: "Settings" },
   ];
 
@@ -47,6 +49,9 @@ function load() {
           if (element.id == "anvil") {
             new Anvil();
             // console.log("sd");
+          }
+          if (element.id == "gear") {
+            new Gear();
           }
           if (element.id == "settings") {
             console.log("before");
