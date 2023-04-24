@@ -21,7 +21,7 @@ async function loadTab(tab) {
   // https://pro-cess-us.github.io/ieh2calc/
   // https://github.com/pro-cess-us/ieh2calc/raw/master/html/slimeBank.html
   // let file = "../html/" + tab + ".html";
-  let file = "../html/" + tab + ".html";
+  let file = "./html/" + tab + ".html";
   if (window.location.host != "127.0.0.1:3000") {
     file = "https://pro-cess-us.github.io/ieh2calc/html/" + tab + ".html";
   }

@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "webpack --config webpack.dev.js",
+    "test": "webpack --config webpack.test.js",
     "build": "webpack --config webpack.prod.js"
   },
   "repository": {
@@ -22,7 +23,6 @@
     "expose-loader": "^4.1.0",
     "html-webpack-plugin": "^5.5.1",
     "imports-loader": "^4.0.1",
-    "jquery": "^3.6.4",
     "style-loader": "^3.3.2",
     "webpack": "^5.78.0",
     "webpack-cli": "^5.0.1",
