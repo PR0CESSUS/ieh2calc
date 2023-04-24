@@ -4,7 +4,7 @@
   "description": "Calcualtor for Incremental Epic Hero 2",
   "private": true,
   "scripts": {
-    "start": "webpack --config webpack.dev.js",
+    "start": "webpack --watch --config webpack.dev.js",
     "test": "webpack --config webpack.test.js",
     "build": "webpack --config webpack.prod.js"
   },
