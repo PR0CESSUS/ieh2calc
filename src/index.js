@@ -2,7 +2,7 @@ import { loadTab, loadFromFile, addEvent, restart, saveToFile } from "./common.j
 import { Anvil } from "./anvil.js";
 // import { expeditionLoad } from "./expedition.js";
 import { SlimeBank } from "./slimebank.js";
-import { Gear } from "./gear/gear.js";
+import { Gear } from "./gear/gear.ts";
 // import "./style.css";
 
 const version = "0.1.2";
