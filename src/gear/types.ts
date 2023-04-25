@@ -318,7 +318,7 @@ export type Part = (typeof parts)[number];
 
 export interface Enchant {
   kind: EnchantKind;
-  didPassFilter: boolean; //wether this enchant passed the filter
+  usage: string;
   maxLevel: number;
   maxValue: number;
   maxValueLottery: number;
@@ -342,30 +342,24 @@ export interface Rating {
   total: number;
 }
 
-export interface EseObject {
-  ese: EffectValues;
-  eseSum: number;
-  eseFiltered: EffectValues;
-  eseFilteredSum: number;
-  rating: Rating; //total rating for a set, or how much a item would add for an item
-}
-
-export type Item = EseObject & {
+export type Item = {
   kind: ItemKind;
-  didPassFilter: boolean; //wether this enchant passed the filter
+  usage: string;
   part: Part;
   setKind: SetKind;
   effects: Effect[];
   levelMaxEffects: Effect[];
+
+  ese: EffectValues;
+  eseSum: number;
+  rating: Rating;
 }
 
-export type GearSet = EseObject & {
+export type GearSet = {
   events: EventEmitter;
 
   equippedItems: {
-    Weapon: ItemKind[];
-    Armor: ItemKind[];
-    Jewelry: ItemKind[];
+    [part in Part]: ItemKind[];
   };
   equippedEnchants: EnchantKind[];
 
@@ -381,6 +375,7 @@ export type GearSet = EseObject & {
       newSetItemBonusRating: Rating;
     };
   };
+  itemSetsAverageMultiplier: number;
 
   //map to look up kind +> item/enchant
   enchantsMap: Map<EnchantKind, Enchant>;
@@ -389,10 +384,24 @@ export type GearSet = EseObject & {
   //sorted and filtered arrays
   enchants: Enchant[];
   items: Item[];
+  
+  ese: EffectValues;
+  eseSum: number;
+  rating: Rating;
 }
 
+export type DamageType = "ATK" | "MATK";
+export type DamageElement = "Physical" | "Fire" | "Ice" | "Thunder" | "Light" | "Dark";
+
 export interface Config {
-  dps: {};
+  dps: {
+    type: DamageType;
+    element: DamageElement;
+    baseDamage: number;
+    critCurse: number;
+    pet: boolean;
+    weight: number;
+  };
   gains: {};
   item: {
     itemLevel: number;
@@ -409,7 +418,5 @@ export interface SaveData {
   version: number;
 
   selectedLoadout: number;
-  gearsets: GearSet[];
-
-  optimizerConfig: Config;
+  gearSets: GearSet[];
 }
