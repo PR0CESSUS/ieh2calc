@@ -68,7 +68,7 @@ class SlimeBank {
 
     // slime coin cap 2
     this.data.slimeCoinCap2.level = document.getElementById("slimeCoinCap2.level").value;
-    this.data.slimeCoinCap2.value = Math.pow(this.data.slimeCoinCap2.level, 2.0) + 100;
+    this.data.slimeCoinCap2.value = Math.pow(this.data.slimeCoinCap2.level, 2.0) * 10 + 100;
     this.data.slimeCoinCap2.cost = 10000000000.0 * Math.pow(2.0, this.data.slimeCoinCap2.level);
 
     // pet1
