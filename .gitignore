@@ -1,9 +1,7 @@
 /node_modules
 /test
 /assets
-/src/loadfromsavefile.js
-/src/Rfc2898DeriveBytes.js
 package-lock.json
 webpack.test.js
-
+settings.bundle.js.LICENSE.txt
 

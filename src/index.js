@@ -19,8 +19,6 @@ ready(function () {
 });
 
 function load() {
-  // current tab
-  var tab = 0;
   const tab_list = [
     { id: "slimeBank", name: "Slime Bank Calculator" },
     { id: "lab", name: "Lab Calculator" },
@@ -28,6 +26,7 @@ function load() {
     { id: "expedition", name: "Expedition Calculator" },
     { id: "gear", name: "Gear Calculator" },
     { id: "settings", name: "Settings" },
+    { id: "changelog", name: "Changelog" },
   ];
 
   if (localStorage.getItem("currentTab")) {
@@ -46,13 +45,17 @@ function load() {
             new Gear();
           }
           if (element.id == "settings") {
-            console.log("before");
-            addEvent("settings.loadFromFile", "change", loadFromFile);
-            console.log("after");
-            addEvent("settings.saveToFile", "click", saveToFile);
-            console.log("after save");
-            addEvent("settings.restart", "click", restart);
-            console.log("after restart");
+            // addEvent("settings.loadFromFile", "change", loadFromFile);
+            // addEvent("settings.saveToFile", "click", saveToFile);
+            // addEvent("settings.restart", "click", restart);
+            var script = document.createElement("script");
+            // script.onload = function () {
+            //   //do stuff with the script
+            //   console.log("loaded?");
+            // };
+            script.src = "./settings.bundle.js";
+
+            document.head.appendChild(script);
           }
         });
 
