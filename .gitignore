@@ -3,3 +3,6 @@
 /assets
 package-lock.json
 webpack.test.js
+/src/loadfromsavefile.js
+/src/Rfc2898DeriveBytes.js
+

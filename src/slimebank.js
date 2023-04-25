@@ -137,8 +137,8 @@ class SlimeBank {
     } else {
       this.data.milestone2700 = false;
     }
-    this.slimeCoinCapTotal();
-    this.display();
+
+    this.update();
   }
 
   slimeCoinCapTotal() {
