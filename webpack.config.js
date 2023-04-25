@@ -8,8 +8,16 @@ module.exports = {
   //     template: "./src/template.html",
   //   }),
   // ],
+  resolve: {
+    extensions: [".js", ".ts"],
+  },
   module: {
     rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: "ts-loader",
+      },
       // {
       //   test: /\.css$/i,
       //   use: ["style-loader", "css-loader"],
