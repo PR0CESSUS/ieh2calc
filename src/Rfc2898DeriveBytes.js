@@ -1,6 +1,5 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const crypto = require("crypto");
+import { pbkdf2Sync, randomBytes } from "crypto";
+
 const $key = Symbol("key");
 const $saltSize = Symbol("saltSize");
 const $salt = Symbol("salt");
@@ -13,7 +12,7 @@ class Rfc2898DeriveBytes {
     this[$saltSize] = saltSize;
     this[$iterationCount] = iterationCount;
     this[$position] = 0;
-    this[$salt] = crypto.randomBytes(this[$saltSize]);
+    this[$salt] = randomBytes(this[$saltSize]);
   }
 
   get salt() {
@@ -32,7 +31,7 @@ class Rfc2898DeriveBytes {
 
   getBytes(byteCount) {
     let position = this[$position];
-    let bytes = crypto.pbkdf2Sync(
+    let bytes = pbkdf2Sync(
       Buffer.from(this[$key]),
       this.salt,
       this.iterationCount,

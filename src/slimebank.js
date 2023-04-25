@@ -1,9 +1,11 @@
-import { convert, convert2, sigma, addEvent } from "./common.js";
+import { convert, convert2, addEvent } from "./common.js";
 
 class SlimeBank {
   constructor() {
     this.name = "slimeBank";
+    this.version = 1;
     this.data = {
+      needUpdate: false,
       research: {
         leaf: { level: 0, value: 0 },
         stone: { level: 0, value: 0 },
@@ -38,20 +40,50 @@ class SlimeBank {
     }
 
     // console.log("class constructor aka Init");
-    addEvent("research.stone.level", "change", this.researchStone.bind(this));
-    addEvent("research.leaf.level", "change", this.researchLeaf.bind(this));
-    addEvent("slimeCoinCap1.level", "change", this.slimeCoinCap1.bind(this));
-    addEvent("slimeCoinCap2.level", "change", this.slimeCoinCap2.bind(this));
-    addEvent("pet1.rank", "change", this.pet.bind(this));
-    addEvent("pet1.loyalty", "change", this.pet.bind(this));
+    addEvent("research.stone.level", "change", this.update.bind(this));
+    addEvent("research.leaf.level", "change", this.update.bind(this));
+    addEvent("slimeCoinCap1.level", "change", this.update.bind(this));
+    addEvent("slimeCoinCap2.level", "change", this.update.bind(this));
+    addEvent("pet1.rank", "change", this.update.bind(this));
+    addEvent("pet1.loyalty", "change", this.update.bind(this));
     addEvent("milestone1800", "change", this.milestone.bind(this));
     addEvent("milestone2700", "change", this.milestone.bind(this));
 
     this.display();
   }
 
-  display() {
+  update() {
+    // stone research
+    this.data.research.stone.level = document.getElementById("research.stone.level").value;
+    this.data.research.stone.value = +(this.data.research.stone.level * 0.1).toFixed(2);
+
+    // leaf research
+    this.data.research.leaf.level = document.getElementById("research.leaf.level").value;
+    this.data.research.leaf.value = +(this.data.research.leaf.level * 2).toFixed(2) + 100;
+
+    // slime coin cap 1
+    this.data.slimeCoinCap1.level = convert2(document.getElementById("slimeCoinCap1.level").value);
+    let level = this.data.slimeCoinCap1.level;
+    this.data.slimeCoinCap1.value = 10000.0 + 10000.0 * level + 10.0 * Math.pow(level, 2.0);
+
+    // slime coin cap 2
+    this.data.slimeCoinCap2.level = document.getElementById("slimeCoinCap2.level").value;
+    this.data.slimeCoinCap2.value = Math.pow(this.data.slimeCoinCap2.level, 2.0) + 100;
+    this.data.slimeCoinCap2.cost = 10000000000.0 * Math.pow(2.0, this.data.slimeCoinCap2.level);
+
+    // pet1
+    this.data.pet1.rank = document.getElementById("pet1.rank").value;
+    this.data.pet1.loyalty = document.getElementById("pet1.loyalty").value;
+    let loyalty = 2.5 * (parseFloat(this.data.pet1.loyalty) + 100) * 0.01;
+    this.data.pet1.passive = parseFloat(this.data.pet1.rank * loyalty + 100).toFixed(2);
+
+    this.slimeCoinCap1Cost();
+    this.slimeCoinCapTotal();
     localStorage.setItem(this.name, JSON.stringify(this.data));
+    this.display();
+  }
+
+  display() {
     // console.log("display()");
     // console.log($("#research.stone.level").value);
 
@@ -87,6 +119,11 @@ class SlimeBank {
     } else {
       document.getElementById("milestone2700").checked = false;
     }
+
+    if (this.data.needUpdate) {
+      this.data.needUpdate = false;
+      this.update();
+    }
   }
 
   milestone() {
@@ -100,67 +137,6 @@ class SlimeBank {
     } else {
       this.data.milestone2700 = false;
     }
-    this.slimeCoinCapTotal();
-    this.display();
-  }
-
-  pet() {
-    this.data.pet1.rank = document.getElementById("pet1.rank").value;
-    this.data.pet1.loyalty = document.getElementById("pet1.loyalty").value;
-    let loyalty = 2.5 * (parseFloat(this.data.pet1.loyalty) + 100) * 0.01;
-    this.data.pet1.passive = parseFloat(this.data.pet1.rank * loyalty + 100).toFixed(2);
-    this.slimeCoinCapTotal();
-    this.display();
-  }
-
-  researchStone() {
-    this.data.research.stone.level = document.getElementById("research.stone.level").value;
-    this.data.research.stone.value = +(this.data.research.stone.level * 0.1).toFixed(2);
-    this.intrest();
-    this.display();
-  }
-
-  researchLeaf() {
-    this.data.research.leaf.level = document.getElementById("research.leaf.level").value;
-    this.data.research.leaf.value = +(this.data.research.leaf.level * 2).toFixed(2) + 100;
-    this.slimeCoinCapTotal();
-    this.display();
-    // slimeBankSlimeCoinCapTotal();
-  }
-
-  slimeCoinCap1() {
-    this.data.slimeCoinCap1.level = convert2(document.getElementById("slimeCoinCap1.level").value);
-    // input = convert2(input);
-
-    // this.data.slimeCoinCap1.value = sigma(
-    //   0,
-    //   this.data.slimeCoinCap1.level,
-    //   function (a) {
-    //     return a * 20 - 10 + 10000;
-    //   },
-    //   10
-    // );
-    let level = this.data.slimeCoinCap1.level;
-    this.data.slimeCoinCap1.value = 10000.0 + 10000.0 * level + 10.0 * Math.pow(level, 2.0);
-
-    this.slimeCoinCap1Cost();
-    this.slimeCoinCapTotal();
-    this.display();
-  }
-
-  slimeCoinCap2() {
-    this.data.slimeCoinCap2.level = document.getElementById("slimeCoinCap2.level").value;
-    this.data.slimeCoinCap2.value =
-      sigma(
-        0,
-        this.data.slimeCoinCap2.level,
-        function (a) {
-          return a * 20 - 10;
-        },
-        10
-      ) + 100;
-    this.data.slimeCoinCap2.cost = 10000000000.0 * Math.pow(2.0, this.data.slimeCoinCap2.level);
-
     this.slimeCoinCapTotal();
     this.display();
   }
