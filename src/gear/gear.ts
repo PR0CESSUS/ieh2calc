@@ -1,6 +1,26 @@
 import colors from "./colors";
-import { setItemAtIndex, initGearset, findBestItem } from "./optimizer";
-import { SaveData, Part, GearSet, Item, ItemKind } from "./types";
+import {
+  changedEnchantFilter,
+  clearAll,
+  findBestItem,
+  getItemKindInSlot,
+  initGearset,
+  isEmptyItemKind,
+  isEmptySlot,
+  maxItemSlotsByPart,
+  optimizeAll,
+  optimizeNextItem,
+  setItemAtIndex,
+} from "./optimizer";
+import {
+  DamageElement,
+  DamageType,
+  GearSet,
+  ItemKind,
+  Part,
+  SaveData,
+  parts,
+} from "./types";
 
 class Gear {
   name = "gear";
@@ -9,37 +29,60 @@ class Gear {
     version: this.version,
 
     selectedLoadout: 0,
-    gearsets: [],
-
-    optimizerConfig: {
-      dps: {},
-      gains: {},
-      item: {
-        itemLevel: 120,
-        includeMastery: true,
-        curseAnvil: true,
-        lottery: true,
-        setBias: 0.075,
-        slots: {
-          Jewelry: 19,
-          Armor: 19,
-          Weapon: 19,
-        },
-      },
-    },
+    gearSets: [],
   };
 
   dom = {
-    gearSetContainer: document.getElementById("gearSetContainer"),
-    itemsWeapons: document.getElementById("itemsWeapons"),
-    itemsArmor: document.getElementById("itemsArmor"),
-    itemsJewelry: document.getElementById("itemsJewelry"),
+    loadoutSelect: document.getElementById("loadoutSelect") as HTMLElement,
 
-    itemsAutocompleteWeapon: document.getElementById("itemsAutocompleteWeapon"),
-    itemsAutocompleteArmor: document.getElementById("itemsAutocompleteArmor"),
+    optimizeAllButton: document.getElementById(
+      "optimizeAllButton"
+    ) as HTMLButtonElement,
+    optimizeNextButton: document.getElementById(
+      "optimizeNextButton"
+    ) as HTMLButtonElement,
+    optimizeClearButton: document.getElementById(
+      "optimizeClearButton"
+    ) as HTMLButtonElement,
+    optimizeSortButton: document.getElementById(
+      "optimizeSortButton"
+    ) as HTMLButtonElement,
+
+    dpsSettingsType: document.getElementById(
+      "dpsSettingsType"
+    ) as HTMLSelectElement,
+    dpsSettingsElement: document.getElementById(
+      "dpsSettingsElement"
+    ) as HTMLSelectElement,
+    dpsSettingsBaseDamage: document.getElementById(
+      "dpsSettingsBaseDamage"
+    ) as HTMLInputElement,
+    dpsSettingsCritCurse: document.getElementById(
+      "dpsSettingsCritCurse"
+    ) as HTMLInputElement,
+    dpsSettingsPet: document.getElementById(
+      "dpsSettingsPet"
+    ) as HTMLInputElement,
+    dpsSettingsWeight: document.getElementById(
+      "dpsSettingsWeight"
+    ) as HTMLInputElement,
+
+    gearSetContainer: document.getElementById(
+      "gearSetContainer"
+    ) as HTMLDivElement,
+    itemsWeapon: document.getElementById("itemsWeapon") as HTMLDivElement,
+    itemsArmor: document.getElementById("itemsArmor") as HTMLDivElement,
+    itemsJewelry: document.getElementById("itemsJewelry") as HTMLDivElement,
+
+    itemsAutocompleteWeapon: document.getElementById(
+      "itemsAutocompleteWeapon"
+    ) as HTMLDataListElement,
+    itemsAutocompleteArmor: document.getElementById(
+      "itemsAutocompleteArmor"
+    ) as HTMLDataListElement,
     itemsAutocompleteJewelry: document.getElementById(
       "itemsAutocompleteJewelry"
-    ),
+    ) as HTMLDataListElement,
 
     optimizeResultTotalEseBarChart: document.getElementById(
       "optimizeResultTotalEseBarChart"
@@ -69,41 +112,182 @@ class Gear {
       }
     }
 
-    this.renderGearSet();
-
     this.activateLoadout(this.data.selectedLoadout);
+
+    this.initLoadoutHtml();
+    this.initDpsSettingsHtml();
+    this.initOptimizationHtml();
+    this.initGearSetHtml();
+    this.updateItemRatingChart();
   }
 
-  renderGearSet() {
+  initLoadoutHtml() {
+    this.dom.loadoutSelect.addEventListener(
+      "click",
+      (event) => {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains("loadoutSelectButton")) {
+          const index = parseInt(target.getAttribute("data-index"));
+          this.activateLoadout(index);
+
+          this.updateDpsSettingsHtml();
+          this.updateGearsetHtml();
+          this.updateItemRatingChart();
+        }
+      },
+      true
+    );
+  }
+  initDpsSettingsHtml() {
+    this.dom.dpsSettingsType.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = target.value as DamageType;
+      gearSet.config.dps.type = value;
+      this.dpsSettingsUpdate();
+    });
+
+    this.dom.dpsSettingsElement.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = target.value as DamageElement;
+      gearSet.config.dps.element = value;
+      this.dpsSettingsUpdate();
+    });
+
+    this.dom.dpsSettingsBaseDamage.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.dps.baseDamage = value;
+      this.dpsSettingsUpdate();
+    });
+
+    this.dom.dpsSettingsCritCurse.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.dps.critCurse = value;
+      this.dpsSettingsUpdate();
+    });
+
+    this.dom.dpsSettingsPet.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = target.checked;
+      gearSet.config.dps.pet = value;
+      this.dpsSettingsUpdate();
+    });
+
+    this.dom.dpsSettingsWeight.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.dps.weight = value;
+      this.dpsSettingsUpdate();
+    });
+
+    this.updateDpsSettingsHtml();
+  }
+  updateDpsSettingsHtml() {
+    const gearSet = this.getCurrentGearset();
+
+    this.dom.dpsSettingsType.value = gearSet.config.dps.type;
+    this.dom.dpsSettingsElement.value = gearSet.config.dps.element;
+    this.dom.dpsSettingsBaseDamage.value =
+      gearSet.config.dps.baseDamage.toString();
+    this.dom.dpsSettingsCritCurse.value =
+      gearSet.config.dps.critCurse.toString();
+    this.dom.dpsSettingsPet.checked = gearSet.config.dps.pet;
+    this.dom.dpsSettingsWeight.value = gearSet.config.dps.weight.toString();
+  }
+  gearSetFilterTimeout: string | number | NodeJS.Timeout;
+  dpsSettingsUpdate = () => {
+    clearTimeout(this.gearSetFilterTimeout);
+    this.gearSetFilterTimeout = setTimeout(() => {
+      this.dpsSettingsUpdateThrottled();
+    }, 300);
+  };
+  dpsSettingsUpdateThrottled = () => {
+    const gearSet = this.getCurrentGearset();
+    console.log("updateGearsetFilter", gearSet);
+
+    changedEnchantFilter(gearSet);
+  };
+  initOptimizationHtml() {
+    this.dom.optimizeAllButton.addEventListener("click", () => {
+      const gearSet = this.getCurrentGearset();
+      optimizeAll(gearSet);
+    });
+    this.dom.optimizeNextButton.addEventListener("click", () => {
+      const gearSet = this.getCurrentGearset();
+      optimizeNextItem(gearSet);
+    });
+    this.dom.optimizeClearButton.addEventListener("click", () => {
+      const gearSet = this.getCurrentGearset();
+      clearAll(gearSet);
+    });
+    this.dom.optimizeSortButton.addEventListener("click", () => {
+      const gearSet = this.getCurrentGearset();
+      for (const part of parts) {
+        gearSet.equippedItems[part].sort((a, b) => {
+          let ratingA = 0;
+          if (a && a !== "Nothing") {
+            const itemA = gearSet.itemsMap.get(a);
+            ratingA = itemA.rating.total;
+          }
+
+          let ratingB = 0;
+          if (b && b !== "Nothing") {
+            const itemB = gearSet.itemsMap.get(b);
+            ratingB = itemB.rating.total;
+          }
+
+          return ratingB - ratingA;
+        });
+      }
+      this.updateGearsetHtml();
+    });
+  }
+
+  initGearSetHtml() {
+    const gearSet = this.getCurrentGearset();
+
     let html;
 
-    html = "";
-    for (let i = 0; i < 19; i++) {
-      html += this.itemTemplate("Weapon", i);
-    }
-    this.dom.itemsWeapons.innerHTML = html;
+    const itemTemplate = (part: Part, index, itemName: string) => {
+      return this.dom.itemTemplate.innerHTML
+        .replace(/{{part}}/g, part)
+        .replace(/{{index}}/g, index)
+        .replace(/{{number}}/g, index + 1)
+        .replace(/{{itemName}}/g, itemName);
+    };
 
     html = "";
-    for (let i = 0; i < 19; i++) {
-      html += this.itemTemplate("Armor", i);
-    }
-    this.dom.itemsArmor.innerHTML = html;
 
-    html = "";
-    for (let i = 0; i < 19; i++) {
-      html += this.itemTemplate("Jewelry", i);
+    for (const part of parts) {
+      const maxItemSlots = maxItemSlotsByPart[part];
+      html = "";
+      for (let i = 0; i < maxItemSlots; i++) {
+        let itemKind = getItemKindInSlot(gearSet, part, i);
+        html += itemTemplate(
+          part,
+          i,
+          isEmptyItemKind(itemKind) ? "" : itemKind
+        );
+      }
+      this.dom[`items${part}`].innerHTML = html;
     }
-    this.dom.itemsJewelry.innerHTML = html;
 
     const updatePartAutocomplete = (part: Part) => {
-      const gearset = this.data.gearsets[this.data.selectedLoadout];
+      const gearSet = this.getCurrentGearset();
 
       const autoCompleteOptions = this.dom[
         `itemsAutocomplete${part}`
       ] as Element;
 
       autoCompleteOptions.innerHTML = "";
-      for (const item of gearset.items) {
+      for (const item of gearSet.items) {
         if (item.part !== part) {
           continue;
         }
@@ -130,20 +314,20 @@ class Gear {
       slotIndex: number,
       choosenName: string
     ) => {
-      const gearset = this.data.gearsets[this.data.selectedLoadout];
+      const gearSet = this.getCurrentGearset();
 
       if (!choosenName || choosenName === "Nothing") {
-        setItemAtIndex(gearset, "Nothing", part, slotIndex);
+        setItemAtIndex(gearSet, "Nothing", part, slotIndex);
         return true;
       }
 
-      if (gearset.itemsMap.has(choosenName as ItemKind)) {
-        const item = gearset.itemsMap.get(choosenName as ItemKind);
+      if (gearSet.itemsMap.has(choosenName as ItemKind)) {
+        const item = gearSet.itemsMap.get(choosenName as ItemKind);
         if (item.part !== part) {
           return false;
         }
 
-        setItemAtIndex(gearset, item.kind, item.part, slotIndex);
+        setItemAtIndex(gearSet, item.kind, item.part, slotIndex);
         return true;
       }
 
@@ -218,33 +402,55 @@ class Gear {
           const index = parseInt(target.getAttribute("data-index"));
 
           setItemOnGearset(part, index, "Nothing");
-          const bestItem = findBestItem(
-            this.data.gearsets[this.data.selectedLoadout],
-            part
-          );
-          target.value = bestItem.kind;
+          const bestItem = findBestItem(this.getCurrentGearset(), part);
           setItemOnGearset(part, index, bestItem.kind);
         }
       },
       true
     );
   }
-  itemTemplate(part, index) {
-    return this.dom.itemTemplate.innerHTML
-      .replace(/{{part}}/g, part)
-      .replace(/{{index}}/g, index);
-  }
+  updateGearsetHtml = () => {
+    const gearSet = this.getCurrentGearset();
+    for (const part of parts) {
+      for (
+        let slotIndex = 0;
+        slotIndex < maxItemSlotsByPart[part];
+        slotIndex++
+      ) {
+        const itemInput = document.querySelector(
+          `.optimizeItemInput[data-part='${part}'][data-index='${slotIndex}']`
+        ) as HTMLInputElement;
+
+        if (isEmptySlot(gearSet, part, slotIndex)) {
+          itemInput.value = "";
+        } else {
+          const itemKind = gearSet.equippedItems[part][slotIndex];
+          itemInput.value = itemKind;
+        }
+      }
+    }
+  };
 
   itemRatingUpdatedTimeout = null;
-  itemRatingUpdatedThrottled = () => {
+  itemRatingUpdated = () => {
     if (this.itemRatingUpdatedTimeout) {
       clearTimeout(this.itemRatingUpdatedTimeout);
     }
-    this.itemRatingUpdatedTimeout = setTimeout(this.itemRatingUpdated, 25);
+    this.itemRatingUpdatedTimeout = setTimeout(
+      this.itemRatingUpdatedThrottled,
+      25
+    );
   };
+  itemRatingUpdatedThrottled = () => {
+    this.updateGearsetHtml();
+    this.updateItemRatingChart();
+
+    this.save();
+  };
+
   itemRatingChart = null;
-  itemRatingUpdated = () => {
-    const gearset = this.data.gearsets[this.data.selectedLoadout];
+  updateItemRatingChart() {
+    const gearSet = this.getCurrentGearset();
 
     let labels = [];
     let effectKindToDataIndex = {};
@@ -255,19 +461,15 @@ class Gear {
         backgroundColor: "red",
       },
     };
-    for (let effectKind in gearset.ese) {
-      if (effectKind === "Nothing") {
-        continue;
-      }
-
+    for (let enchant of gearSet.enchants) {
       let dataIndex = labels.length;
-      effectKindToDataIndex[effectKind] = dataIndex;
+      effectKindToDataIndex[enchant.kind] = dataIndex;
 
-      labels[dataIndex] = effectKind;
+      labels[dataIndex] = enchant.kind;
 
-      dataSets.enchants.data[dataIndex] = gearset.equippedEnchants.reduce(
-        (acc, enchant) => {
-          if (enchant === effectKind) {
+      dataSets.enchants.data[dataIndex] = gearSet.equippedEnchants.reduce(
+        (acc, equippedEnchantKind) => {
+          if (equippedEnchantKind === enchant.kind) {
             acc++;
           }
           return acc;
@@ -276,14 +478,14 @@ class Gear {
       );
     }
     let colorIndex = 0;
-    for (let part in gearset.equippedItems) {
-      for (let itemKind of gearset.equippedItems[part as Part]) {
+    for (let part of parts) {
+      for (let itemKind of gearSet.equippedItems[part]) {
         if (itemKind === "Nothing") {
           continue;
         }
 
-        const item = gearset.itemsMap.get(itemKind);
-        const setEffectMult = gearset.itemSets[item.setKind].activeMultiplier;
+        const item = gearSet.itemsMap.get(itemKind);
+        const setEffectMult = gearSet.itemSets[item.setKind].activeMultiplier;
 
         if (typeof dataSets[itemKind] === "undefined") {
           dataSets[itemKind] = {
@@ -295,7 +497,7 @@ class Gear {
           colorIndex = (colorIndex + 1) % colors.length;
         }
 
-        for (let effectKind in gearset.ese) {
+        for (let effectKind in gearSet.ese) {
           if (typeof effectKindToDataIndex[effectKind] === "undefined") {
             continue;
           }
@@ -353,24 +555,21 @@ class Gear {
         }
       );
     }
-  };
+  }
 
   save() {
     let dataToSave = JSON.parse(JSON.stringify(this.data));
 
-    for (const gearset of dataToSave.gearsets) {
-      for (const key in gearset) {
+    for (const gearSet of dataToSave.gearSets) {
+      for (const key in gearSet) {
         //only save sets, effects, rating, items, enchants from GearSet
         switch (key) {
-          case "items":
-          case "enchants":
+          case "equippedItems":
+          case "equippedEnchants":
           case "config":
-          case "sets":
-          case "effects":
-          case "rating":
             break;
           default:
-            delete gearset[key];
+            delete gearSet[key];
             break;
         }
       }
@@ -379,22 +578,33 @@ class Gear {
     localStorage.setItem(this.name, JSON.stringify(dataToSave));
   }
 
+  getCurrentGearset(): GearSet {
+    return this.data.gearSets[this.data.selectedLoadout];
+  }
   activateLoadout(loadout: number) {
-    //disable old
-
-    const gearsetPrevious = this.data.gearsets[this.data.selectedLoadout];
-    if (gearsetPrevious) {
-      gearsetPrevious.events.off(
-        "itemRatingUpdated",
-        this.itemRatingUpdatedThrottled
-      );
+    //disable previous
+    const gearSetPrevious = this.getCurrentGearset();
+    if (gearSetPrevious && gearSetPrevious.events) {
+      gearSetPrevious.events.off("itemRatingUpdated", this.itemRatingUpdated);
     }
 
     this.data.selectedLoadout = loadout;
 
-    let gearset = this.data.gearsets[loadout];
-    if (typeof gearset === "undefined") {
-      gearset = {
+    const loadoutSelectButtons = document.querySelectorAll<HTMLElement>(
+      ".loadoutSelectButton"
+    );
+    for (const loadoutSelectButton of loadoutSelectButtons) {
+      loadoutSelectButton.classList.remove("active");
+      if (
+        parseInt(loadoutSelectButton.getAttribute("data-index")) === loadout
+      ) {
+        loadoutSelectButton.classList.add("active");
+      }
+    }
+
+    let gearSet = this.data.gearSets[loadout];
+    if (typeof gearSet === "undefined" || !gearSet) {
+      gearSet = {
         equippedItems: {
           Weapon: [],
           Armor: [],
@@ -404,13 +614,36 @@ class Gear {
       } as GearSet;
     }
 
-    gearset.config = this.data.optimizerConfig;
-    initGearset(gearset);
+    if (typeof gearSet.config === "undefined" || !gearSet.config) {
+      gearSet.config = {
+        dps: {
+          type: "ATK",
+          element: "Ice",
+          baseDamage: 1,
+          critCurse: 0,
+          pet: false,
+          weight: 1,
+        },
+        gains: {},
+        item: {
+          itemLevel: 120,
+          includeMastery: true,
+          curseAnvil: true,
+          lottery: true,
+          setBias: 0.075,
+          slots: {
+            ...maxItemSlotsByPart,
+          },
+        },
+      };
+    }
+    initGearset(gearSet);
 
-    this.data.gearsets[loadout] = gearset;
+    this.data.gearSets[loadout] = gearSet;
 
-    gearset.events.on("itemRatingUpdated", this.itemRatingUpdatedThrottled);
+    gearSet.events.on("itemRatingUpdated", this.itemRatingUpdated);
   }
 }
 
 export { Gear };
+

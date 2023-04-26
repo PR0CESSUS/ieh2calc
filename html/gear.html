@@ -1,4 +1,9 @@
 <style>
+  .loadoutSelectButton.active {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+  }
+  
   #gearSetContainer {
     display: flex;
   }
@@ -33,8 +38,8 @@
   }
 
   input[type="text"] {
-    padding: 10px;
-    border-radius: 5px;
+    padding: 4px;
+    border-radius: 2px;
     border: 1px solid #ccc;
   }
 
@@ -53,7 +58,8 @@
       list="itemsAutocomplete{{part}}"
       data-part="{{part}}"
       data-index="{{index}}"
-      placeholder="{{part}} {{index}}"
+      placeholder="{{part}} {{number}}"
+      value="{{itemName}}"
     />
     <button class="optimizeItemButton" tabindex="-1">
       <i class="fas fa-plus"></i>
@@ -69,13 +75,61 @@
   <div>
     <h3>Loadout</h3>
 
-    Loadouts
+    <div id="loadoutSelect">
+      <button class="loadoutSelectButton button-grey" data-index="0">Loadout 1</button>
+      <button class="loadoutSelectButton button-grey" data-index="1">Loadout 2</button>
+      <button class="loadoutSelectButton button-grey" data-index="2">Loadout 3</button>
+      <button class="loadoutSelectButton button-grey" data-index="3">Loadout 4</button>
+      <button class="loadoutSelectButton button-grey" data-index="4">Loadout 5</button>
+      <button class="loadoutSelectButton button-grey" data-index="5">Loadout 6</button>
+      <button class="loadoutSelectButton button-grey" data-index="6">Loadout 7</button>
+    </div>
   </div>
 
   <div>
     <h3>DPS Settings</h3>
+    
+    <select id="dpsSettingsType">
+      <option value="ATK">ATK</option>
+      <option value="MATK">MATK</option>
+    </select>
+     / 
+    <select id="dpsSettingsElement">
+      <option value="Physical">Physical</option>
+      <option value="Fire">Fire</option>
+      <option value="Ice">Ice</option>
+      <option value="Thunder">Thunder</option>
+      <option value="Light">Light</option>
+      <option value="Dark">Dark</option>
+    </select>
 
-    Base Damage Skill Type Skill Element Pet Crit Chance Base - Curse or Buff
+    <br />
+
+    <label>
+      Base Damage
+      <input type="number" id="dpsSettingsBaseDamage" value="0" />
+    </label>
+
+    <br />
+
+    <label>
+      Crit Bonus (WIP)
+      <input type="number" id="dpsSettingsCritCurse" value="0" />
+    </label>
+
+    <br />
+
+    <label>
+      Pet (WIP)
+      <input type="checkbox" id="dpsSettingsPet" />
+    </label>
+
+    <br />
+
+    <label>
+      Dps Weight/Cap (WIP)
+      <input type="number" id="dpsSettingsWeight" value="0" />
+    </label>
   </div>
 
   <div>
@@ -94,7 +148,10 @@
   <div>
     <h3>Optimization</h3>
 
-    Optimize All
+    <button id="optimizeAllButton" class="button-orange">Optimize All</button>
+    <button id="optimizeNextButton" class="button-orange">Optimize Next</button>
+    <button id="optimizeClearButton" class="button-orange">Clear All</button>
+    <button id="optimizeSortButton" class="button-orange">Sort</button>
   </div>
 
   <div>
@@ -103,7 +160,7 @@
     <div id="gearSetContainer">
       <div class="column">
         <h2>Weapon</h2>
-        <div id="itemsWeapons"></div>
+        <div id="itemsWeapon"></div>
       </div>
       <div class="column">
         <h2>Armor</h2>
@@ -118,8 +175,6 @@
 
   <div>
     <h3>Stats</h3>
-
-    Show stats for the current Gear
 
     <canvas id="optimizeResultTotalEseBarChart"></canvas>
   </div>
