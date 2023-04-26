@@ -69,8 +69,6 @@ function loadFromSaveFile() {
 
   reader.addEventListener("load", function (e) {
     let data = e.target.result;
-    console.log("file loaded");
-
     let dataArray = data.split("#");
     let data0 = dencrypt(dataArray[0]);
     let data1 = dencrypt(dataArray[1]);
