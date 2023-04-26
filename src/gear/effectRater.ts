@@ -1,139 +1,146 @@
-import { EffectValues, GearSet, Rating } from "./types";
+import {
+  DamageElement,
+  DamageType,
+  EffectValues,
+  EnchantKind,
+  GearSet,
+  Rating,
+  enchantKinds,
+} from "./types";
 
-const enchantUsage = {
-  UnicornKnowledge: "",
-  HPAdder: "",
-  MPAdder: "",
-  ATKAdder: "",
-  MATKAdder: "",
-  DEFAdder: "",
-  MDEFAdder: "",
-  SPDAdder: "",
-  HPMultiplier: "",
-  MPMultiplier: "",
-  ATKMultiplier: "dps",
-  MATKMultiplier: "",
-  DEFMultiplier: "",
-  MDEFMultiplier: "",
-  ATKPropotion: "dps",
-  MATKPropotion: "",
-  DEFPropotion: "",
-  MDEFPropotion: "",
-  FireResistance: "",
-  IceResistance: "",
-  ThunderResistance: "",
-  LightResistance: "",
-  DarkResistance: "",
-  PhysicalAbsorption: "",
-  FireAbsorption: "",
-  IceAbsorption: "",
-  ThunderAbsorption: "",
-  LightAbsorption: "",
-  DarkAbsorption: "",
-  DebuffResistance: "",
-  EquipmentDropChance: "",
-  SlimeDropChance: "",
-  MagicSlimeDropChance: "",
-  SpiderDropChance: "",
-  BatDropChance: "",
-  FairyDropChance: "",
-  FoxDropChance: "",
-  DevilFishDropChance: "",
-  TreantDropChance: "",
-  FlameTigerDropChance: "",
-  UnicornDropChance: "",
-  ColorMaterialDropChance: "",
-  PhysicalCritical: "dps",
-  MagicalCritical: "",
-  EXPGain: "gains",
-  SkillProficiency: "gains",
-  EquipmentProficiency: "gains",
-  MoveSpeedMultiplier: "",
-  GoldGain: "",
-  StoneGain: "",
-  CrystalGain: "",
-  LeafGain: "",
-  WarriorSkillLevel: "",
-  WizardSkillLevel: "",
-  AngelSkillLevel: "",
-  ThiefSkillLevel: "",
-  ArcherSkillLevel: "",
-  TamerSkillLevel: "",
-  AllSkillLevel: "",
-  SlimeKnowledge: "",
-  MagicSlimeKnowledge: "",
-  SpiderKnowledge: "",
-  BatKnowledge: "",
-  FairyKnowledge: "",
-  FoxKnowledge: "",
-  DevilFishKnowledge: "",
-  TreantKnowledge: "",
-  FlameTigerKnowledge: "",
-  PhysicalDamage: "",
-  FireDamage: "",
-  IceDamage: "dps",
-  ThunderDamage: "",
-  LightDamage: "",
-  DarkDamage: "",
-  HpRegen: "",
-  MpRegen: "",
-  TamingPoint: "",
-  WarriorSkillRange: "",
-  WizardSkillRange: "",
-  AngelSkillRange: "",
-  ThiefSkillRange: "",
-  ArcherSkillRange: "",
-  TamerSkillRange: "",
-  TownMatGain: "gains",
-  TownMatAreaClearGain: "",
-  RebirthPointGain1: "gains",
-  RebirthPointGain2: "gains",
-  RebirthPointGain3: "gains",
-  CriticalDamage: "dps",
-  BlessingEffect: "dps",
-  MoveSpeedAdder: "",
-  PetEXPGain: "",
-  LoyaltyPointGain: "",
-  CatalystDoubleCriticalChance: "",
-  WarriorSkillEffectRange: "",
-  WizardSkillEffectRange: "",
-  AngelSkillEffectRange: "",
-  ThiefSkillEffectRange: "",
-  ArcherSkillEffectRange: "",
-  TamerSkillEffectRange: "",
-  HpRegenMultiplier: "",
-  MpRegenMultiplier: "",
-  ArmoredFury: "",
-  WardedFury: "dps",
-  PetPhysicalCriticalChance: "",
-  PetMagicalCriticalChance: "",
-  PetCriticalDamage: "",
-  PetDebuffResistance: "",
-  StoneTownResearchPower: "",
-  CrystalTownResearchPower: "",
-  LeafTownResearchPower: "",
-  GuildEXPGain: "gains",
-  SPDMultiplier: "",
-  CriticalDamageMultiplier: "dps",
-  SkillProficiencyMultiplier: "gains",
-  EquipmentProficiencyMultiplier: "gains",
-  EXPGainMultiplier: "gains",
-  GoldGainMultiplier: "",
-  PhysicalDamageMultiplier: "",
-  FireDamageMultiplier: "",
-  IceDamageMultiplier: "dps",
-  ThunderDamageMultiplier: "",
-  LightDamageMultiplier: "",
-  DarkDamageMultiplier: "",
-  TamingPointMultiplier: "",
-  PetEXPGainMultiplier: "",
-  LoyaltyPointGainMultiplier: "",
-  BlessingEffectMultiplier: "dps",
-  PhysicalCriticalMultiplier: "dps",
-  MagicalCriticalMultiplier: "",
+const oneOf = (effectKind: EnchantKind, effectKinds: EnchantKind[]) => {
+  return effectKinds.indexOf(effectKind) !== -1;
 };
 
-export const rateEffects = (gearSet:GearSet, ese: EffectValues, rating: Rating) => {
+const isEffectUsageType = (effectKind: EnchantKind, type: DamageType) => {
+  switch (type) {
+    case "ATK":
+      return oneOf(effectKind, ["ATKMultiplier", "ATKPropotion"]);
+    case "MATK":
+      return oneOf(effectKind, ["MATKMultiplier", "MATKPropotion"]);
+  }
+};
+
+const isEffectUsageElement = (
+  effectKind: EnchantKind,
+  element: DamageElement
+) => {
+  switch (element) {
+    case "Physical":
+      return oneOf(effectKind, ["PhysicalDamage", "PhysicalDamageMultiplier"]);
+    case "Fire":
+      return oneOf(effectKind, ["FireDamage", "FireDamageMultiplier"]);
+    case "Ice":
+      return oneOf(effectKind, ["IceDamage", "IceDamageMultiplier"]);
+    case "Thunder":
+      return oneOf(effectKind, ["ThunderDamage", "ThunderDamageMultiplier"]);
+    case "Light":
+      return oneOf(effectKind, ["LightDamage", "LightDamageMultiplier"]);
+    case "Dark":
+      return oneOf(effectKind, ["DarkDamage", "DarkDamageMultiplier"]);
+  }
+};
+
+const isEffectUsageCrit = (effectKind: EnchantKind, element: DamageElement) => {
+  //PhysicalCritical
+  //PhysicalCriticalMultiplier
+  //CriticalDamage
+  //CriticalDamageMultiplier
+  if (oneOf(effectKind, ["CriticalDamage", "CriticalDamageMultiplier"])) {
+    return true;
+  }
+
+  switch (element) {
+    case "Physical":
+      return oneOf(effectKind, [
+        "PhysicalCritical",
+        "PhysicalCriticalMultiplier",
+      ]);
+    case "Fire":
+    case "Ice":
+    case "Thunder":
+    case "Light":
+    case "Dark":
+      return oneOf(effectKind, [
+        "MagicalCritical",
+        "MagicalCriticalMultiplier",
+      ]);
+  }
+};
+
+const isEffectUsageBlessing = (effectKind: EnchantKind) => {
+  return oneOf(effectKind, ["BlessingEffect", "BlessingEffectMultiplier"]);
+};
+
+const isEffectUsageFury = (effectKind: EnchantKind, element: DamageElement) => {
+  switch (element) {
+    case "Physical":
+      return oneOf(effectKind, ["ArmoredFury"]);
+    case "Fire":
+    case "Ice":
+    case "Thunder":
+    case "Light":
+    case "Dark":
+      return oneOf(effectKind, ["WardedFury"]);
+  }
+};
+
+const isEffectUsageGains = (effectKind: EnchantKind) => {
+  return oneOf(effectKind, [
+    "EXPGain",
+    "SkillProficiency",
+    "EquipmentProficiency",
+    "TownMatGain",
+    "RebirthPointGain1",
+    "RebirthPointGain2",
+    "RebirthPointGain3",
+    "GuildEXPGain",
+    "SkillProficiencyMultiplier",
+    "EquipmentProficiencyMultiplier",
+    "EXPGainMultiplier",
+  ]);
+};
+
+export const effectUsage = (gearSet: GearSet, effectKind: EnchantKind) => {
+  let usage: string = "";
+
+  //this enchant can not be applied to an item and is therefore filtered
+  if (effectKind === "Nothing") {
+    return usage;
+  }
+
+  if (isEffectUsageType(effectKind, gearSet.config.dps.type)) {
+    usage += "_dps/type_";
+  }
+
+  if (isEffectUsageElement(effectKind, gearSet.config.dps.element)) {
+    usage += "_dps/elemental_";
+  }
+
+  if (isEffectUsageCrit(effectKind, gearSet.config.dps.element)) {
+    usage += "_dps/crit_";
+  }
+
+  if (isEffectUsageBlessing(effectKind)) {
+    usage += "_dps/blessing_";
+  }
+
+  if (isEffectUsageFury(effectKind, gearSet.config.dps.element)) {
+    usage += "_dps/fury_";
+  }
+
+  if (isEffectUsageGains(effectKind)) {
+    usage += "_gains_";
+  }
+
+  return usage;
+};
+
+export const rateEffects = (
+  gearSet: GearSet,
+  ese: EffectValues,
+  rating: Rating
+) => {
   rating.dps = 1;
   rating.gains = 1;
 
@@ -141,9 +148,9 @@ export const rateEffects = (gearSet:GearSet, ese: EffectValues, rating: Rating) 
   // "Nothing" is a enchant slot, its worth as much as the best enchant
   // consider outlier like fury
   //consider target caps for dps and crit chance
-  for (let effectKind in ese) {
+  for (let effectKind of enchantKinds) {
     //if we dont care for these dont include them in the value
-    if (!enchantUsage[effectKind]) {
+    if (!gearSet.enchantsMap.get(effectKind).usage) {
       continue;
     }
 
