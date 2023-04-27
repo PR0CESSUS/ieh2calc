@@ -1,5 +1,7 @@
 import { createDecipheriv } from "crypto";
 import { pbkdf2Sync } from "crypto";
+import { SlimeBankData } from "./slimebank";
+import { GuildData } from "./guild";
 
 const $key = Symbol("key");
 const $salt = Symbol("salt");
@@ -70,36 +72,53 @@ function loadFromSaveFile() {
   reader.addEventListener("load", function (e) {
     let data = e.target.result;
     let dataArray = data.split("#");
-    let data0 = dencrypt(dataArray[0]);
-    let data1 = dencrypt(dataArray[1]);
-    // data0:
-    // console.log(data0);
-    let json = JSON.parse(data0);
-    let json2 = JSON.parse(data1);
+    let data0 = JSON.parse(dencrypt(dataArray[0]));
+    let data1 = JSON.parse(dencrypt(dataArray[1]));
+    let data2 = JSON.parse(dencrypt(dataArray[2]));
 
-    // console.log(json);
+    // slime bank
+    let storage = null;
+    let name = "slimeBank";
+    if (localStorage.getItem(name) === null || localStorage.getItem(name) === "null") {
+      storage = new SlimeBankData();
+    } else {
+      storage = JSON.parse(localStorage.getItem(name));
+    }
 
-    let slimebank = JSON.parse(localStorage.getItem("slimeBank"));
-    slimebank.research.stone.level = json.buildingResearchLevelsStone[6];
-    slimebank.research.leaf.level = json.buildingResearchLevelsLeaf[6];
-    slimebank.slimeCoinCap1.level = json.upgradeLevelsSlimebank[0];
-    slimebank.slimeCoinCap2.level = json.upgradeLevelsSlimebank[21];
-    slimebank.pet1.rank = json2.monsterPetRanks[83];
-    slimebank.pet1.loyalty = json2.monsterPetLoyalty[83];
+    storage.researchStoneLevel = data0.buildingResearchLevelsStone[6];
+    storage.researchLeafLevel = data0.buildingResearchLevelsLeaf[6];
+    storage.slimeCoinCap1Level = data0.upgradeLevelsSlimebank[0];
+    storage.slimeCoinCap2Level = data0.upgradeLevelsSlimebank[21];
+    storage.pet1Rank = data1.monsterPetRanks[83];
+    storage.pet1Loyalty = data1.monsterPetLoyalty[83];
     let counter = 0;
-    json2.isClearedMission.forEach((element) => {
+    data1.isClearedMission.forEach((element) => {
       if (element) {
         counter += 1;
       }
     });
     if (counter >= 1800) {
-      slimebank.milestone1800 = true;
+      storage.milestone1800 = true;
     }
     if (counter >= 2700) {
-      slimebank.milestone2700 = true;
+      storage.milestone2700 = true;
     }
-    slimebank.needUpdate = true;
-    localStorage.setItem("slimeBank", JSON.stringify(slimebank));
+    localStorage.setItem(name, JSON.stringify(storage));
+
+    // guild
+    storage = null;
+    name = "guild";
+    if (localStorage.getItem(name) === null || localStorage.getItem(name) === "null") {
+      storage = new GuildData();
+    } else {
+      storage = JSON.parse(localStorage.getItem(name));
+    }
+    storage.levelCurrent = data0.guildLevel;
+    storage.talisman = data0.potionDisassembledNums[32];
+    localStorage.setItem(name, JSON.stringify(storage));
+
+    // debug
+
     console.log("succes");
   });
   reader.readAsText(file);

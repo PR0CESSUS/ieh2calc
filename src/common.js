@@ -1,19 +1,22 @@
-function save() {
-  localStorage.setItem(this.id, this.value);
-  console.log(this);
-}
-
-function restart() {
-  localStorage.clear();
-  location.reload();
-}
-
 function addEvent(id, event, callback) {
   document.getElementById(id).addEventListener(event, callback);
 }
 
-function changeTab(input) {
-  localStorage.setItem("currentTab", input);
+function changeTab(event) {
+  localStorage.setItem("currentTab", event.target.id);
+
+  if (event.target.id == "changelog") {
+    let version = document.getElementById("version").innerHTML;
+    if (
+      localStorage.getItem("version") === null ||
+      localStorage.getItem("version") === "null" ||
+      localStorage.getItem("version") != version
+    ) {
+      localStorage.setItem("version", version);
+      document.getElementById("changelog").classList.remove("menu-button-warning");
+    }
+  }
+  document.location.reload();
 }
 
 async function loadTab(tab) {
@@ -26,40 +29,14 @@ async function loadTab(tab) {
     file = "https://pro-cess-us.github.io/ieh2calc/html/" + tab + ".html";
   }
 
-  // myHeaders.append("Content-Type", "text/plain");
-  // myHeaders.append(
-  //   "Content-Security-Policy:",
-  //   "default-src 'self'; style-src 'self' 'unsafe-inline' *; font-src 'self' *; connect-src 'self' *; img-src data: *"
-  // );
   let options = {
     method: "GET",
     headers: myHeaders,
     mode: "cors",
-    // referrerPolicy: "same-origin",
   };
-  // let x = await fetch(file);
-  // let y = await x.text();
-  // document.getElementById("content").innerHTML = y;
+
   return fetch(file, options).then((response) => response.text());
 }
-
-// ext.get = (url) => {
-//   let myHeaders = new Headers();
-
-//   let options = {
-//       method: 'GET',
-//       headers: myHeaders,
-//       mode: 'cors'
-//   };
-
-//   //fetch get
-
-//   return fetch(url, options).then(response => response.text());
-// };
-
-// ext.get("http://example.com").then((response) => {
-//   console.log(response); // or whatever
-// });
 
 function sigma(lowerBound, upperBound, iterator, accumulator = 0) {
   // let accumulator = 0;
@@ -93,17 +70,10 @@ function convert(input) {
 }
 
 // convert k,m,b,t to normal numbers
-function convert2(input, min = 0, max = 999999999999999) {
+function convert2(input) {
   input = input.replace(/,/g, "."); // convert , to .
   if (/^\d*\.?\d+$/.test(input)) {
-    if (input < min) {
-      return min;
-    } else if (input > max) {
-      return max;
-    } else {
-      return input;
-    }
-    return input;
+    return parseFloat(input);
   } // return rounded number if there is no abbreviete
   else {
     const regex = /(.*)(\D)$/gm;
@@ -122,48 +92,27 @@ function convert2(input, min = 0, max = 999999999999999) {
       output = input[1] * 1000 ** 1;
     }
 
-    return output;
+    return parseFloat(output);
   }
 }
 
-function saveToFile() {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(
-    new Blob([JSON.stringify(localStorage, null, 2)], {
-      type: "text/plain",
-    })
-  );
-  a.setAttribute("download", "IEH2calc-data.json");
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+function secondsToDhms(seconds) {
+  seconds = parseInt(seconds);
+  let d = Math.floor(seconds / (3600 * 24));
+  let h = Math.floor((seconds % (3600 * 24)) / 3600);
+  let m = Math.floor((seconds % 3600) / 60);
+  let s = Math.floor(seconds % 60);
+
+  if (h < 10) {
+    h = "0" + h;
+  }
+  if (m < 10) {
+    m = "0" + m;
+  }
+  if (s < 10) {
+    s = "0" + s;
+  }
+  return `${d}d ${h}:${m}:${s}`;
 }
 
-function loadFromFile() {
-  let file = document.getElementById("settings.loadFromFile").files[0];
-  let reader = new FileReader();
-  reader.addEventListener("load", function (e) {
-    let text = e.target.result;
-    //   document.querySelector("#file-contents").textContent = text;
-    console.log(JSON.parse(text));
-    for (const [key, value] of Object.entries({ ...JSON.parse(text) })) {
-      // console.log(`${key}: ${value}`);
-      localStorage.setItem(key, value);
-      location.reload();
-      // console.log(`${key}: ${value}`);
-    }
-  });
-  reader.readAsText(file);
-}
-
-export {
-  convert,
-  convert2,
-  sigma,
-  restart,
-  changeTab,
-  loadTab,
-  addEvent,
-  saveToFile,
-  loadFromFile,
-};
+export { convert, convert2, sigma, changeTab, loadTab, addEvent, secondsToDhms };

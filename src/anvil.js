@@ -1,82 +1,103 @@
-class Anvil {
+class AnvilData {
   constructor() {
-    this.name = "anvil";
-    this.data = {
-      nitro: 1.0,
-      dungeon: [
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-        {
-          name: "herolevel",
-          diff: 1,
-          time: 1,
-          reward: 18000,
-          orb: 3600,
-        },
-      ],
-    };
+    this.version = 1;
+    this.nitro = 1.0;
+    this.dungeon = [
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+      {
+        name: "herolevel",
+        diff: 1,
+        time: 1,
+        reward: 18000,
+        orb: 3600,
+      },
+    ];
+  }
+}
 
-    if (localStorage.getItem(this.name) === null) {
-      localStorage.setItem(this.name, JSON.stringify(this.data));
+class Anvil {
+  name = "anvil";
+  data = new AnvilData();
+  version = this.data.version;
+  constructor() {
+    const savedString = localStorage.getItem(this.name);
+    if (savedString === null || savedString === "null") {
+      // localStorage.setItem(this.name, JSON.stringify(this.data));
+      this.save();
     } else {
       this.data = JSON.parse(localStorage.getItem(this.name));
+
+      if (this.data.version < this.version) {
+        switch (this.data.version) {
+          case 1:
+            // changes between versions
+            this.data.version = this.version;
+            this.save();
+            document.location.reload();
+            break;
+          default:
+            alert("missing version migration, use Hard Reset in Settings");
+            break;
+        }
+      }
     }
 
-    document.getElementById("anvil-calculator").addEventListener("change", this.save.bind(this));
+    document.getElementById("anvil-calculator").addEventListener("change", this.update.bind(this));
 
     this.display();
   }
@@ -113,6 +134,19 @@ class Anvil {
   }
 
   save() {
+    localStorage.setItem(this.name, JSON.stringify(this.data));
+  }
+
+  update() {
+    // const target = event.target;
+    // const idFull = target.id;
+    // const id = idFull.split(".")[1];
+    // // console.log(target);
+    // this.data[id] = convert2(document.getElementById(idFull).value);
+
+    // this.save();
+    // this.display();
+
     this.data.nitro = document.getElementById("anvil.nitro.speed").value;
     for (let i in this.data.dungeon) {
       this.data.dungeon[i].name = document.getElementById("anvil.dungeon." + i + ".name").value;
@@ -126,7 +160,7 @@ class Anvil {
       this.data.dungeon[i].orb = Math.round(perhour * this.data.nitro);
     }
 
-    localStorage.setItem(this.name, JSON.stringify(this.data));
+    this.save();
     this.display();
   }
 
@@ -158,4 +192,4 @@ class Anvil {
   }
 }
 
-export { Anvil };
+export { Anvil, AnvilData };

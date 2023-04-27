@@ -1,9 +1,12 @@
-import { loadTab, loadFromFile, addEvent, restart, saveToFile } from "./common.js";
+import { loadTab, changeTab } from "./common.js";
 import { Anvil } from "./anvil.js";
+import { Guild } from "./guild.js";
 // import { expeditionLoad } from "./expedition.js";
 import { SlimeBank } from "./slimebank.js";
 import { Gear } from "./gear/gear.ts";
 // import "./style.css";
+
+const version = "0.1.6";
 
 function ready(fn) {
   if (document.readyState != "loading") {
@@ -21,9 +24,10 @@ ready(function () {
 function load() {
   const tab_list = [
     { id: "slimeBank", name: "Slime Bank Calculator" },
-    { id: "lab", name: "Lab Calculator" },
+    { id: "guild", name: "Guild Calculator" },
+    // { id: "lab", name: "Lab Calculator" },
     { id: "anvil", name: "Anvil Calculator" },
-    { id: "expedition", name: "Expedition Calculator" },
+    // { id: "expedition", name: "Expedition Calculator" },
     { id: "gear", name: "Gear Calculator" },
     { id: "settings", name: "Settings" },
     { id: "changelog", name: "Changelog" },
@@ -31,6 +35,7 @@ function load() {
 
   if (localStorage.getItem("currentTab")) {
     tab_list.forEach((element) => {
+      document.getElementById(element.id).addEventListener("click", changeTab);
       if (localStorage.getItem("currentTab") == element.id) {
         loadTab(element.id).then((response) => {
           // loading
@@ -43,6 +48,9 @@ function load() {
           }
           if (element.id == "gear") {
             new Gear();
+          }
+          if (element.id == "guild") {
+            new Guild();
           }
           if (element.id == "settings") {
             // addEvent("settings.loadFromFile", "change", loadFromFile);
@@ -69,7 +77,17 @@ function load() {
     loadTab("slimeBank").then((response) => {
       document.getElementById("content").innerHTML = response;
       new SlimeBank();
-      console.log("else in load | after Init");
     });
+  }
+  document.getElementById("version").innerHTML = version;
+
+  // let version = document.getElementById("version").innerHTML;
+  if (
+    localStorage.getItem("version") === null ||
+    localStorage.getItem("version") === "null" ||
+    localStorage.getItem("version") != version
+  ) {
+    // localStorage.setItem("version", version);
+    document.getElementById("changelog").classList.add("menu-button-warning");
   }
 }
