@@ -35,13 +35,13 @@ module.exports = {
       //   test: /\.css$/i,
       //   use: ["style-loader", "css-loader"],
       // },
-      {
-        test: require.resolve("./src/common.js"),
-        loader: "expose-loader",
-        options: {
-          exposes: "changeTab changeTab",
-        },
-      },
+      // {
+      //   test: require.resolve("./src/common.js"),
+      //   loader: "expose-loader",
+      //   options: {
+      //     exposes: "changeTab changeTab",
+      //   },
+      // },
     ],
   },
 };

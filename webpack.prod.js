@@ -5,4 +5,9 @@ const path = require("path");
 
 module.exports = merge(common, {
   mode: "production",
+  performance: {
+    hints: false,
+    maxEntrypointSize: 768000,
+    maxAssetSize: 768000,
+  },
 });

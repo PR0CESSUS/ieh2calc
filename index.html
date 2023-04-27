@@ -14,27 +14,23 @@
 <div class="wrapper">
 <div class="header"><h1 id="title">IEH2calc</h1></div>
 <div class="sidebar">
-    <form>
-        <button id="slimeBank" class="headeritem" onclick="changeTab(this.id)">Slime Bank</button>
+    <!-- <form> -->
+        <button id="slimeBank" class="menu-button">Slime Bank</button>
+        <button id="guild" class="menu-button">Guild</button>
+        <!-- 
+        <button id="lab" class="menu-button" onclick="changeTab(this.id)">Lab (WIP)</button>
+        <button id="expedition" class="menu-button" onclick="changeTab(this.id)">Expedition</button>
+         -->
+        <button id="anvil" class="menu-button">Anvil</button>
+        <button id="gear" class="menu-button">Gear</button>
+        <button id="settings" class="menu-button">Settings</button>
+        <button id="changelog" class="menu-button">Changelog</button>
         <hr>
-        <!-- <button id="lab" class="headeritem" onclick="changeTab(this.id)">Lab (WIP)</button>
-        <hr>
-        <button id="expedition" class="headeritem" onclick="changeTab(this.id)">Expedition</button>
-        <hr> -->
-        <button id="anvil" class="headeritem" onclick="changeTab(this.id)">Anvil</button>
-        <hr>
-        <button id="gear" class="headeritem" onclick="changeTab(this.id)">Gear</button>
-        <hr>
-        <button id="settings" class="headeritem" onclick="changeTab(this.id)">Settings</button>
-        <hr>
-        <!-- <button id="quest" class="headeritem" onclick="currentTab(this.id)">Quest</button> -->
-        <button id="changelog" class="headeritem" onclick="changeTab(this.id)">Changelog</button>
-        <hr>
-    </form>
+    <!-- </form> -->
 </div>
 <div id="content"></div>
 <div id="footer" class="footer">          
-    version: 0.1.5 | <a href="https://github.com/pro-cess-us/ieh2calc">Github Repository Page</a>
+    version: <span id="version">0.0.0</span> | <a href="https://github.com/pro-cess-us/ieh2calc">Github Repository Page</a>
 
 </div>
 </div>
