@@ -2,11 +2,12 @@ import { convert, convert2, secondsToDhms } from "./common.js";
 
 class GuildData {
   constructor() {
-    this.version = 1;
+    this.version = 2;
     this.levelCurrent = 0;
     this.levelTarget = 0;
     this.expPerHour = 0;
     this.talisman = 0;
+    this.nitro = 1; // added in version 2
   }
 }
 
@@ -26,6 +27,7 @@ class Guild {
           case 1:
             // changes between versions
             this.data.version = this.version;
+            this.data.nitro = 1.0;
             this.save();
             document.location.reload();
             break;
@@ -67,6 +69,7 @@ class Guild {
     document.getElementById("guild.expPerHour").value = convert(this.data.expPerHour);
     document.getElementById("guild.talisman").value = this.data.talisman;
     document.getElementById("guild.time").innerHTML = this.getTime();
+    document.getElementById("guild.nitro").value = this.data.nitro;
   }
 
   getTime() {
@@ -92,7 +95,7 @@ class Guild {
         requiredExpTotal += requiredExp;
       }
 
-      let expPerSeconds = this.data.expPerHour / 3600;
+      let expPerSeconds = (this.data.expPerHour / 3600) * this.data.nitro;
       time = parseInt(requiredExpTotal / expPerSeconds);
       // console.log("expPerSeconds " + parseInt(expPerSeconds));
       // console.log("requiredExpTotal " + requiredExpTotal);
