@@ -318,6 +318,7 @@ export type Part = (typeof parts)[number];
 
 export interface Enchant {
   kind: EnchantKind;
+  kindNumeric: number;
   usage: string;
   maxLevel: number;
   maxValue: number;
@@ -338,12 +339,28 @@ export type EffectValues = {
 
 export interface Rating {
   dps: number;
-  gains: number;
+
+  exp: number;
+  gexp: number;
+  rb1: number;
+  rb2: number;
+  rb3: number;
+  skillProf: number;
+  townMat: number;
+  gold: number;
+  resource: number;
+  petExp: number;
+  eqProf: number;
+  lpg: number;
+  tpg: number;
+  dropRace: number;
+
   total: number;
 }
 
 export type Item = {
   kind: ItemKind;
+  kindNumeric: number;
   usage: string;
   part: Part;
   setKind: SetKind;
@@ -402,7 +419,22 @@ export interface Config {
     pet: boolean;
     weight: number;
   };
-  gains: {};
+  gains: {
+    exp: number;
+    gexp: number;
+    rb1: number;
+    rb2: number;
+    rb3: number;
+    skillProf: number;
+    eqProf: number;
+    townMat: number;
+    gold: number;
+    resource: number;
+    petExp: number;
+    lpg: number;
+    tpg: number;
+    dropRace: number;
+  };
   item: {
     itemLevel: number;
     includeMastery: boolean;

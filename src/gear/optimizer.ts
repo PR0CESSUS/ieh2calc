@@ -25,7 +25,22 @@ const defaultEffectValues: EffectValues = enchantKinds.reduce((acc, kind) => {
 
 const defaultRating: Rating = {
   dps: 0,
-  gains: 0,
+
+  exp: 0,
+  gexp: 0,
+  rb1: 0,
+  rb2: 0,
+  rb3: 0,
+  skillProf: 0,
+  eqProf: 0,
+  townMat: 0,
+  gold: 0,
+  resource: 0,
+  petExp: 0,
+  lpg: 0,
+  tpg: 0,
+  dropRace: 0,
+
   total: 0,
 } as const;
 
@@ -67,6 +82,7 @@ export const initGearset = (gearSet: GearSet): GearSet => {
 
   gearSet.enchantsMap.set("Nothing", {
     kind: "Nothing",
+    kindNumeric: 0,
     usage: "",
     maxLevel: 1,
     maxValue: 1,
@@ -126,7 +142,6 @@ export const initGearset = (gearSet: GearSet): GearSet => {
 
 export const changedEnchantFilter = (gearSet: GearSet) => {
   updateEnchantsFilter(gearSet);
-  updateGearsetEse(gearSet);
   updateAllRatings(gearSet);
 };
 
@@ -173,12 +188,16 @@ export const addEnchant = (gearSet: GearSet, enchant: Enchant): boolean => {
   for (let i = 0; i < maxEnchantSlots; i++) {
     const equippedEnchant = gearSet.equippedEnchants[i];
     if (!equippedEnchant || equippedEnchant === "Nothing") {
-      return setEnchantAtIndex(gearSet, enchant.kind, gearSet.equippedEnchants.length);
+      return setEnchantAtIndex(
+        gearSet,
+        enchant.kind,
+        gearSet.equippedEnchants.length
+      );
     }
   }
 
-  return false
-}
+  return false;
+};
 
 export const setEnchantAtIndex = (
   gearSet: GearSet,
@@ -384,7 +403,7 @@ export const optimizeNextEnchant = (gearSet: GearSet): boolean => {
     return false;
   }
   return addEnchant(gearSet, bestEnchant);
-}
+};
 
 const updateItemsEse = (gearSet: GearSet) => {
   for (let item of gearSet.items) {
@@ -408,7 +427,9 @@ const addEffectsToEse = (
   object: { ese: EffectValues; eseSum: number; rating: Rating },
   effects: Effect[]
 ) => {
+  var i = 0;
   for (let effect of effects) {
+    i++;
     const enchant = gearSet.enchantsMap.get(effect.kind);
     let enchantEffectValue = enchant.maxValue;
     if (gearSet.config.item.lottery) {
@@ -544,11 +565,10 @@ const updateAllEnchantRating = (gearSet: GearSet) => {
     gearSet.ese[enchant.kind] -= setMultiplier;
   }
 
-  gearSet.enchants.sort((a, b) => b.rating.dps - a.rating.dps);
+  gearSet.enchants.sort((a, b) => b.rating.total - a.rating.total);
 };
 
 const updateAllItemRating = (gearSet: GearSet) => {
-  
   //fill all enchant slots with temporary enchants
   //  this is so we choose items which dont overlap with good enchant options
   const originalEse = gearSet.ese;
@@ -568,7 +588,7 @@ const updateAllItemRating = (gearSet: GearSet) => {
       break;
     }
 
-    gearSet.ese[lowestEseKind] += gearSet.itemSetsAverageMultiplier
+    gearSet.ese[lowestEseKind] += gearSet.itemSetsAverageMultiplier;
   }
 
   for (const item of gearSet.items) {
@@ -618,7 +638,7 @@ const updateAllItemRating = (gearSet: GearSet) => {
     }
   }
 
-  gearSet.items.sort((a, b) => b.rating.dps - a.rating.dps);
+  gearSet.items.sort((a, b) => b.rating.total - a.rating.total);
 
   gearSet.events.emit("itemRatingUpdated");
 };
