@@ -25,7 +25,7 @@ function load() {
   const tab_list = [
     { id: "slimeBank", name: "Slime Bank Calculator" },
     { id: "guild", name: "Guild Calculator" },
-    // { id: "lab", name: "Lab Calculator" },
+    { id: "lab", name: "Lab Calculator" },
     { id: "anvil", name: "Anvil Calculator" },
     // { id: "expedition", name: "Expedition Calculator" },
     { id: "gear", name: "Gear Calculator" },
