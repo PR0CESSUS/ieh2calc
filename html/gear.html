@@ -73,7 +73,7 @@
   <datalist id="itemsAutocompleteJewelry"></datalist>
 
   <div>
-    <h3>Loadout</h3>
+    <h3>Loadout (alt+1-9 to switch)</h3>
 
     <div id="loadoutSelect">
       <button class="loadoutSelectButton button-grey" data-index="0">Loadout 1</button>
@@ -83,6 +83,8 @@
       <button class="loadoutSelectButton button-grey" data-index="4">Loadout 5</button>
       <button class="loadoutSelectButton button-grey" data-index="5">Loadout 6</button>
       <button class="loadoutSelectButton button-grey" data-index="6">Loadout 7</button>
+      <button class="loadoutSelectButton button-grey" data-index="7">Loadout 8</button>
+      <button class="loadoutSelectButton button-grey" data-index="8">Loadout 9</button>
     </div>
   </div>
 
@@ -113,7 +115,7 @@
     <br />
 
     <label>
-      Crit Bonus (WIP)
+      Crit Bonus (WIP, -1 disables crit, 100 disables crit chance but keeps crit damage)
       <input type="number" id="dpsSettingsCritCurse" value="0" />
     </label>
 
@@ -142,7 +144,16 @@
   <div>
     <h3>Item Settings</h3>
 
-    Available Slots Mastered Anvils Lottery Item Level Set Bias Set Filter
+    Available Slots
+    Mastered
+    Anvils
+    Lottery
+    <label>
+      Item Level
+      <input type="number" id="itemSettingsItemLevel" min="0" max="120" />
+    </label>
+    Set Bias
+    Set Filter
   </div>
 
   <div>
