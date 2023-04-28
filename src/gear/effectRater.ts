@@ -41,7 +41,12 @@ const isEffectUsageElement = (
   }
 };
 
-const isEffectUsageCrit = (effectKind: EnchantKind, element: DamageElement) => {
+const isEffectUsageCrit = (effectKind: EnchantKind, critCurse: number, type: DamageType) => {
+  //crit curse to big, dont include crit at all
+  if (critCurse < 0) {
+    return
+  }
+  
   //PhysicalCritical
   //PhysicalCriticalMultiplier
   //CriticalDamage
@@ -50,17 +55,18 @@ const isEffectUsageCrit = (effectKind: EnchantKind, element: DamageElement) => {
     return true;
   }
 
-  switch (element) {
-    case "Physical":
+  //capped crit, dont get more chance
+  if (critCurse >= 100) {
+    return
+  }
+
+  switch (type) {
+    case "ATK":
       return oneOf(effectKind, [
         "PhysicalCritical",
         "PhysicalCriticalMultiplier",
       ]);
-    case "Fire":
-    case "Ice":
-    case "Thunder":
-    case "Light":
-    case "Dark":
+    case "MATK":
       return oneOf(effectKind, [
         "MagicalCritical",
         "MagicalCriticalMultiplier",
@@ -117,7 +123,7 @@ export const effectUsage = (gearSet: GearSet, effectKind: EnchantKind) => {
     usage += "_dps/elemental_";
   }
 
-  if (isEffectUsageCrit(effectKind, gearSet.config.dps.element)) {
+  if (isEffectUsageCrit(effectKind, gearSet.config.dps.critCurse, gearSet.config.dps.type)) {
     usage += "_dps/crit_";
   }
 

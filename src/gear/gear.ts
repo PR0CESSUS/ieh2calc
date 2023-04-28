@@ -1,6 +1,7 @@
 import colors from "./colors";
 import {
   changedEnchantFilter,
+  changedItemSettings,
   clearAll,
   findBestItem,
   getItemKindInSlot,
@@ -67,6 +68,8 @@ class Gear {
       "dpsSettingsWeight"
     ) as HTMLInputElement,
 
+    itemSettingsItemLevel: document.getElementById("itemSettingsItemLevel") as HTMLInputElement,
+
     gearSetContainer: document.getElementById(
       "gearSetContainer"
     ) as HTMLDivElement,
@@ -116,12 +119,26 @@ class Gear {
 
     this.initLoadoutHtml();
     this.initDpsSettingsHtml();
+    this.initItemSettingsHtml();
     this.initOptimizationHtml();
     this.initGearSetHtml();
     this.updateItemRatingChart();
   }
 
   initLoadoutHtml() {
+    //bind to ctrl + 1-9
+    document.addEventListener("keydown", (event) => {
+      if (event.altKey) {
+        const index = parseInt(event.key) - 1;
+        if (index >= 0 && index < 9) {
+          this.activateLoadout(index);
+
+          this.updateDpsSettingsHtml();
+          this.updateGearsetHtml();
+          this.updateItemRatingChart();
+        }
+      }
+    });
     this.dom.loadoutSelect.addEventListener(
       "click",
       (event) => {
@@ -201,18 +218,48 @@ class Gear {
     this.dom.dpsSettingsPet.checked = gearSet.config.dps.pet;
     this.dom.dpsSettingsWeight.value = gearSet.config.dps.weight.toString();
   }
-  gearSetFilterTimeout: string | number | NodeJS.Timeout;
+  dpsSettingsUpdatedTimeout: string | number | NodeJS.Timeout;
   dpsSettingsUpdate = () => {
-    clearTimeout(this.gearSetFilterTimeout);
-    this.gearSetFilterTimeout = setTimeout(() => {
+    clearTimeout(this.dpsSettingsUpdatedTimeout);
+    this.dpsSettingsUpdatedTimeout = setTimeout(() => {
       this.dpsSettingsUpdateThrottled();
     }, 300);
   };
   dpsSettingsUpdateThrottled = () => {
     const gearSet = this.getCurrentGearset();
-    console.log("updateGearsetFilter", gearSet);
+    console.log("dpsSettingsUpdateThrottled", gearSet);
 
     changedEnchantFilter(gearSet);
+  };
+  initItemSettingsHtml() {
+    this.dom.itemSettingsItemLevel.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseInt(target.value);
+      gearSet.config.item.itemLevel = value;
+
+      this.itemSettingsChanged()
+    });
+
+    this.updateItemSettingsHtml()
+  }
+  updateItemSettingsHtml() {
+    const gearSet = this.getCurrentGearset();
+
+    this.dom.itemSettingsItemLevel.value = gearSet.config.item.itemLevel.toString();
+  }
+  itemSettingsChangedTimeout: string | number | NodeJS.Timeout;
+  itemSettingsChanged = () => {
+    clearTimeout(this.itemSettingsChangedTimeout);
+    this.itemSettingsChangedTimeout = setTimeout(() => {
+      this.itemSettingsChangedThrottled();
+    }, 300);
+  };
+  itemSettingsChangedThrottled = () => {
+    const gearSet = this.getCurrentGearset();
+    console.log("itemSettingsChangedThrottled", gearSet);
+
+    changedItemSettings(gearSet);
   };
   initOptimizationHtml() {
     this.dom.optimizeAllButton.addEventListener("click", () => {
@@ -461,6 +508,21 @@ class Gear {
         backgroundColor: "red",
       },
     };
+    const enchantsSortedByUsage = gearSet.enchants.sort((a, b) => {
+      if (a.usage > b.usage) {
+        return -1;
+      }
+      if (a.usage < b.usage) {
+        return 1;
+      }
+      if (a.kind < b.kind) {
+        return -1;
+      }
+      if (a.kind > b.kind) {
+        return 1;
+      }
+      return 0;
+    });
     for (let enchant of gearSet.enchants) {
       let dataIndex = labels.length;
       effectKindToDataIndex[enchant.kind] = dataIndex;
@@ -520,7 +582,6 @@ class Gear {
     }
 
     if (this.itemRatingChart) {
-      //this.itemRatingChart.destroy();
       this.itemRatingChart.data.labels = labels;
       this.itemRatingChart.data.datasets = dataSetsArray;
 

@@ -145,6 +145,13 @@ export const changedEquippedEnchants = (gearSet: GearSet) => {
   updateAllRatings(gearSet);
 };
 
+export const changedItemSettings = (gearSet: GearSet) => {
+  updateItemsEse(gearSet);
+  updateItemSets(gearSet);
+  updateGearsetEse(gearSet);
+  updateAllRatings(gearSet);
+};
+
 export const update = (
   enchantFilterChanged,
   itemFilterChanged,
