@@ -1,4 +1,3 @@
-import colors from "./colors";
 import {
   changedEnchantFilter,
   changedItemSettings,
@@ -68,7 +67,52 @@ class Gear {
       "dpsSettingsWeight"
     ) as HTMLInputElement,
 
-    itemSettingsItemLevel: document.getElementById("itemSettingsItemLevel") as HTMLInputElement,
+    gainsSettingsEXP: document.getElementById(
+      "gainsSettingsEXP"
+    ) as HTMLInputElement,
+    gainsSettingsGEXP: document.getElementById(
+      "gainsSettingsGEXP"
+    ) as HTMLInputElement,
+    gainsSettingsRB1: document.getElementById(
+      "gainsSettingsRB1"
+    ) as HTMLInputElement,
+    gainsSettingsRB2: document.getElementById(
+      "gainsSettingsRB2"
+    ) as HTMLInputElement,
+    gainsSettingsRB3: document.getElementById(
+      "gainsSettingsRB3"
+    ) as HTMLInputElement,
+    gainsSettingsSkillProf: document.getElementById(
+      "gainsSettingsSkillProf"
+    ) as HTMLInputElement,
+    gainsSettingsEQProf: document.getElementById(
+      "gainsSettingsEQProf"
+    ) as HTMLInputElement,
+    gainsSettingsTownMat: document.getElementById(
+      "gainsSettingsTownMat"
+    ) as HTMLInputElement,
+    gainsSettingsGold: document.getElementById(
+      "gainsSettingsGold"
+    ) as HTMLInputElement,
+    gainsSettingsResource: document.getElementById(
+      "gainsSettingsResource"
+    ) as HTMLInputElement,
+    gainsSettingsPetEXP: document.getElementById(
+      "gainsSettingsPetEXP"
+    ) as HTMLInputElement,
+    gainsSettingsLPG: document.getElementById(
+      "gainsSettingsLPG"
+    ) as HTMLInputElement,
+    gainsSettingsTPG: document.getElementById(
+      "gainsSettingsTPG"
+    ) as HTMLInputElement,
+    gainsSettingsDropRace: document.getElementById(
+      "gainsSettingsDropRace"
+    ) as HTMLInputElement,
+
+    itemSettingsItemLevel: document.getElementById(
+      "itemSettingsItemLevel"
+    ) as HTMLInputElement,
 
     gearSetContainer: document.getElementById(
       "gearSetContainer"
@@ -119,6 +163,7 @@ class Gear {
 
     this.initLoadoutHtml();
     this.initDpsSettingsHtml();
+    this.initGainsWeightsHtml();
     this.initItemSettingsHtml();
     this.initOptimizationHtml();
     this.initGearSetHtml();
@@ -227,10 +272,147 @@ class Gear {
   };
   dpsSettingsUpdateThrottled = () => {
     const gearSet = this.getCurrentGearset();
-    console.log("dpsSettingsUpdateThrottled", gearSet);
 
     changedEnchantFilter(gearSet);
   };
+
+  initGainsWeightsHtml() {
+    this.dom.gainsSettingsEXP.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.exp = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsGEXP.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.gexp = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsRB1.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.rb1 = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsRB2.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.rb2 = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsRB3.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.rb3 = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsSkillProf.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.skillProf = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsEQProf.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.eqProf = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsTownMat.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.townMat = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsGold.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.gold = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsResource.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.resource = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsPetEXP.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.petExp = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsLPG.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.lpg = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsTPG.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.tpg = value;
+      this.gainsSettingsUpdate();
+    });
+    this.dom.gainsSettingsDropRace.addEventListener("change", (event) => {
+      const gearSet = this.getCurrentGearset();
+      const target = event.target as HTMLInputElement;
+      const value = parseFloat(target.value);
+      gearSet.config.gains.dropRace = value;
+      this.gainsSettingsUpdate();
+    });
+
+    this.updateGainsSettingsHtml();
+  }
+  updateGainsSettingsHtml() {
+    const gearSet = this.getCurrentGearset();
+
+    this.dom.gainsSettingsEXP.value = gearSet.config.gains.exp.toString();
+    this.dom.gainsSettingsGEXP.value = gearSet.config.gains.gexp.toString();
+    this.dom.gainsSettingsRB1.value = gearSet.config.gains.rb1.toString();
+    this.dom.gainsSettingsRB2.value = gearSet.config.gains.rb2.toString();
+    this.dom.gainsSettingsRB3.value = gearSet.config.gains.rb3.toString();
+    this.dom.gainsSettingsSkillProf.value =
+      gearSet.config.gains.skillProf.toString();
+    this.dom.gainsSettingsEQProf.value = gearSet.config.gains.eqProf.toString();
+    this.dom.gainsSettingsTownMat.value =
+      gearSet.config.gains.townMat.toString();
+    this.dom.gainsSettingsGold.value = gearSet.config.gains.gold.toString();
+    this.dom.gainsSettingsResource.value =
+      gearSet.config.gains.resource.toString();
+    this.dom.gainsSettingsPetEXP.value = gearSet.config.gains.petExp.toString();
+    this.dom.gainsSettingsLPG.value = gearSet.config.gains.lpg.toString();
+    this.dom.gainsSettingsTPG.value = gearSet.config.gains.tpg.toString();
+    this.dom.gainsSettingsDropRace.value =
+      gearSet.config.gains.dropRace.toString();
+  }
+  gainsSettingsUpdatedTimeout: string | number | NodeJS.Timeout;
+  gainsSettingsUpdate = () => {
+    clearTimeout(this.gainsSettingsUpdatedTimeout);
+    this.gainsSettingsUpdatedTimeout = setTimeout(() => {
+      this.gainsSettingsUpdateThrottled();
+    }, 300);
+  };
+  gainsSettingsUpdateThrottled = () => {
+    const gearSet = this.getCurrentGearset();
+
+    changedEnchantFilter(gearSet);
+  };
+
   initItemSettingsHtml() {
     this.dom.itemSettingsItemLevel.addEventListener("change", (event) => {
       const gearSet = this.getCurrentGearset();
@@ -238,15 +420,16 @@ class Gear {
       const value = parseInt(target.value);
       gearSet.config.item.itemLevel = value;
 
-      this.itemSettingsChanged()
+      this.itemSettingsChanged();
     });
 
-    this.updateItemSettingsHtml()
+    this.updateItemSettingsHtml();
   }
   updateItemSettingsHtml() {
     const gearSet = this.getCurrentGearset();
 
-    this.dom.itemSettingsItemLevel.value = gearSet.config.item.itemLevel.toString();
+    this.dom.itemSettingsItemLevel.value =
+      gearSet.config.item.itemLevel.toString();
   }
   itemSettingsChangedTimeout: string | number | NodeJS.Timeout;
   itemSettingsChanged = () => {
@@ -257,7 +440,6 @@ class Gear {
   };
   itemSettingsChangedThrottled = () => {
     const gearSet = this.getCurrentGearset();
-    console.log("itemSettingsChangedThrottled", gearSet);
 
     changedItemSettings(gearSet);
   };
@@ -281,13 +463,13 @@ class Gear {
           let ratingA = 0;
           if (a && a !== "Nothing") {
             const itemA = gearSet.itemsMap.get(a);
-            ratingA = itemA.rating.total;
+            ratingA = itemA.kindNumeric;
           }
 
           let ratingB = 0;
           if (b && b !== "Nothing") {
             const itemB = gearSet.itemsMap.get(b);
-            ratingB = itemB.rating.total;
+            ratingB = itemB.kindNumeric;
           }
 
           return ratingB - ratingA;
@@ -508,7 +690,7 @@ class Gear {
         backgroundColor: "red",
       },
     };
-    const enchantsSortedByUsage = gearSet.enchants.sort((a, b) => {
+    const enchantsSortedByUsage = [...gearSet.enchants].sort((a, b) => {
       if (a.usage > b.usage) {
         return -1;
       }
@@ -523,7 +705,7 @@ class Gear {
       }
       return 0;
     });
-    for (let enchant of gearSet.enchants) {
+    for (let enchant of enchantsSortedByUsage) {
       let dataIndex = labels.length;
       effectKindToDataIndex[enchant.kind] = dataIndex;
 
@@ -539,39 +721,71 @@ class Gear {
         0
       );
     }
-    let colorIndex = 0;
-    for (let part of parts) {
-      for (let itemKind of gearSet.equippedItems[part]) {
-        if (itemKind === "Nothing") {
+
+    const equippedItemsSortedByKindNumeric = [
+      ...gearSet.equippedItems.Weapon,
+      ...gearSet.equippedItems.Armor,
+      ...gearSet.equippedItems.Jewelry,
+    ].sort((a, b) => {
+      let ratingA = 0;
+      if (a && a !== "Nothing") {
+        const itemA = gearSet.itemsMap.get(a);
+        //ratingA = itemA.rating.total;
+        ratingA = itemA.kindNumeric;
+      }
+
+      let ratingB = 0;
+      if (b && b !== "Nothing") {
+        const itemB = gearSet.itemsMap.get(b);
+        //ratingB = itemB.rating.total;
+        ratingB = itemB.kindNumeric;
+      }
+
+      return ratingB - ratingA;
+    });
+    for (let itemKind of equippedItemsSortedByKindNumeric) {
+      if (itemKind === "Nothing") {
+        continue;
+      }
+
+      const item = gearSet.itemsMap.get(itemKind);
+      const setEffectMult = gearSet.itemSets[item.setKind].activeMultiplier;
+
+      function generateColorFromString(str: string): string {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        const h = hash % 360;
+        const s = 50 + Math.abs(Math.sin(hash)) * 50;
+        const l = 50 + Math.abs(Math.cos(hash)) * 20;
+
+        const color = `hsl(${h}, ${s}%, ${l}%)`;
+
+        return color;
+      }
+
+      if (typeof dataSets[itemKind] === "undefined") {
+        dataSets[itemKind] = {
+          label: itemKind,
+          data: [],
+          backgroundColor: generateColorFromString(itemKind),
+        };
+      }
+
+      for (let effectKind in gearSet.ese) {
+        if (typeof effectKindToDataIndex[effectKind] === "undefined") {
           continue;
         }
 
-        const item = gearSet.itemsMap.get(itemKind);
-        const setEffectMult = gearSet.itemSets[item.setKind].activeMultiplier;
-
-        if (typeof dataSets[itemKind] === "undefined") {
-          dataSets[itemKind] = {
-            label: itemKind,
-            data: [],
-            backgroundColor: colors[colorIndex],
-          };
-
-          colorIndex = (colorIndex + 1) % colors.length;
+        let dataIndex = effectKindToDataIndex[effectKind];
+        if (typeof dataSets[item.kind].data[dataIndex] === "undefined") {
+          dataSets[item.kind].data[dataIndex] = 0;
         }
-
-        for (let effectKind in gearSet.ese) {
-          if (typeof effectKindToDataIndex[effectKind] === "undefined") {
-            continue;
-          }
-
-          let dataIndex = effectKindToDataIndex[effectKind];
-          if (typeof dataSets[item.kind].data[dataIndex] === "undefined") {
-            dataSets[item.kind].data[dataIndex] = 0;
-          }
-          if (typeof item.ese[effectKind] === "number") {
-            dataSets[item.kind].data[dataIndex] +=
-              item.ese[effectKind] * setEffectMult;
-          }
+        if (typeof item.ese[effectKind] === "number") {
+          dataSets[item.kind].data[dataIndex] +=
+            item.ese[effectKind] * setEffectMult;
         }
       }
     }
@@ -685,7 +899,22 @@ class Gear {
           pet: false,
           weight: 1,
         },
-        gains: {},
+        gains: {
+          exp: 1,
+          gexp: 1,
+          rb1: 1,
+          rb2: 1,
+          rb3: 1,
+          skillProf: 1,
+          eqProf: 1,
+          townMat: 1,
+          gold: 0,
+          resource: 0,
+          petExp: 0,
+          lpg: 0,
+          tpg: 0,
+          dropRace: 0,
+        },
         item: {
           itemLevel: 120,
           includeMastery: true,
@@ -707,4 +936,3 @@ class Gear {
 }
 
 export { Gear };
-
