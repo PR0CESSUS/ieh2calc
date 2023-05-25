@@ -1,12 +1,12 @@
 import { loadTab, changeTab } from "./common.js";
 import { Anvil } from "./anvil.js";
 import { Guild } from "./guild.js";
-// import { expeditionLoad } from "./expedition.js";
+import { Expedition } from "./expedition.js";
 import { SlimeBank } from "./slimebank.js";
 import { Gear } from "./gear/gear.ts";
 // import "./style.css";
 
-const version = "0.1.6";
+const version = "0.1.7";
 
 function ready(fn) {
   if (document.readyState != "loading") {
@@ -27,7 +27,7 @@ function load() {
     { id: "guild", name: "Guild Calculator" },
     // { id: "lab", name: "Lab Calculator" },
     { id: "anvil", name: "Anvil Calculator" },
-    // { id: "expedition", name: "Expedition Calculator" },
+    { id: "expedition", name: "Expedition Calculator" },
     { id: "gear", name: "Gear Calculator" },
     { id: "settings", name: "Settings" },
     { id: "changelog", name: "Changelog" },
@@ -46,6 +46,9 @@ function load() {
           if (element.id == "anvil") {
             new Anvil();
           }
+          if (element.id == "expedition") {
+            new Expedition();
+          }
           if (element.id == "gear") {
             new Gear();
           }
@@ -61,7 +64,8 @@ function load() {
             //   //do stuff with the script
             //   console.log("loaded?");
             // };
-            script.src = "./settings.bundle.js";
+
+            script.src = "js/settings.bundle.js";
 
             document.head.appendChild(script);
           }

@@ -3,5 +3,5 @@
 /assets
 package-lock.json
 webpack.test.js
-settings.bundle.js.LICENSE.txt
+*.LICENSE.txt
 /.vscode

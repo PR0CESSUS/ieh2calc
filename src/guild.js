@@ -78,6 +78,11 @@ class Guild {
     if (levelTotal > 0 && this.data.expPerHour > 0) {
       let requiredExpTotal = 0;
       let time = 0;
+      let talismanPassive = 1.0 - this.data.talisman * 0.0001;
+
+      if (this.data.talisman > 9900) {
+        talismanPassive = 0.01;
+      }
 
       for (let i = 0; i < levelTotal; i++) {
         let level = this.data.levelCurrent + i;
@@ -89,8 +94,7 @@ class Guild {
               2000.0 * Math.pow(level / 10.0, 6.0) +
               25000.0 * Math.pow(level / 20.0, 9.0) +
               300000.0 * Math.pow(level / 30.0, 12.0)
-          ) *
-          (1.0 - this.data.talisman * 0.0001);
+          ) * talismanPassive;
 
         requiredExpTotal += requiredExp;
       }
