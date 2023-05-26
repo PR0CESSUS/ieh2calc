@@ -61,16 +61,22 @@ function dencrypt(src) {
 }
 
 function loadFromSaveFile() {
-  console.log("loadFromSaveFile initialization");
   let file = document.getElementById("settings.loadFromSaveFile").files[0];
   let reader = new FileReader();
 
   reader.addEventListener("load", function (e) {
-    console.log("from inside reader");
     let dataArray = e.target.result.split("#");
-    let data0 = JSON.parse(dencrypt(dataArray[0]));
-    let data1 = JSON.parse(dencrypt(dataArray[1]));
-    let data2 = JSON.parse(dencrypt(dataArray[2]));
+    let data0raw = dencrypt(dataArray[0]);
+    let data1raw = dencrypt(dataArray[1]);
+    let data2raw = dencrypt(dataArray[2]);
+
+    if (localStorage.getItem('hacked')) {
+      data1raw = data1raw.replace('Infinity', 1);
+      console.log('hacked :P');
+    }
+    let data0 = JSON.parse(data0raw);
+    let data1 = JSON.parse(data1raw);
+    let data2 = JSON.parse(data2raw);
     let data = {
       ...data0,
       ...data1,
