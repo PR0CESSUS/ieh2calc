@@ -61,10 +61,12 @@ function dencrypt(src) {
 }
 
 function loadFromSaveFile() {
+  console.log("loadFromSaveFile initialization");
   let file = document.getElementById("settings.loadFromSaveFile").files[0];
   let reader = new FileReader();
 
   reader.addEventListener("load", function (e) {
+    console.log("from inside reader");
     let dataArray = e.target.result.split("#");
     let data0 = JSON.parse(dencrypt(dataArray[0]));
     let data1 = JSON.parse(dencrypt(dataArray[1]));
