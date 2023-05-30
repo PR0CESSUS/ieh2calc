@@ -157,6 +157,8 @@ function calcExpedition() {
     //   console.log(`${key}: ${value}`);
     // }
 
+    // RequiredExp(level) => 86400.0 *  (1 + level) + 0.25 * Math.Pow(Math.Max(0, level - 3), 2.0));
+
     document.getElementById(speed).innerHTML = totalSpeed.toFixed(3);
     //   document.getElementById(orb).innerHTML = Math.round(3600 / document.getElementById(time).value * nitro) ;
   }

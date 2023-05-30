@@ -57,8 +57,10 @@ function dencrypt(src) {
   let decipher = createDecipheriv("aes-128-cbc", key, iv);
   let decoded = decipher.update(src, "base64", "ascii");
   decoded += decipher.final("ascii");
-  return decoded;
+  return decoded; 
+  // sda s
 }
+
 
 function loadFromSaveFile() {
   let file = document.getElementById("settings.loadFromSaveFile").files[0];

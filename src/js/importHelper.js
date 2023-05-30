@@ -5,7 +5,9 @@ import { GuildData } from "./guild.js";
 class ImportHelper {
   expedition = new ExpeditionData();
   slimeBank = new SlimeBankData();
-  guild = new GuildData();
+  // guild = new GuildData();
+  guild = this.loadOldData('guild',new GuildData());
+
   constructor(data) {
     this.data = data;
     this.clearedMission = this.getClearedMission();
@@ -37,6 +39,15 @@ class ImportHelper {
     alert("Data imported !");
   }
 
+  loadOldData(name, data) {
+    let key = localStorage.getItem(name);
+    if (key === null || key === "null") {
+      return data;
+    } else {
+      return JSON.parse(localStorage.getItem(name));
+    }
+  }
+ 
   checkAreaMilestone(value) {
     if (value <= this.clearedMission) {
       return true;

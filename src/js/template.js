@@ -59,6 +59,9 @@ class name {
     document.getElementById("guild.expPerHour").value = convert(this.data.expPerHour);
     document.getElementById("guild.talisman").value = this.data.talisman;
     document.getElementById("guild.time").innerHTML = this.getTime();
+
+
+   
   }
 }
 

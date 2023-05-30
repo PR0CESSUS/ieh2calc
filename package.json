@@ -19,10 +19,12 @@
   },
   "homepage": "https://github.com/pro-cess-us/ieh2calc#readme",
   "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
-    "expose-loader": "^4.1.0",
     "html-webpack-plugin": "^5.5.1",
+    "ignore-emit-webpack-plugin": "^2.0.6",
     "imports-loader": "^4.0.1",
+    "mini-css-extract-plugin": "^2.7.6",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "style-loader": "^3.3.2",
     "ts-loader": "^9.4.2",
