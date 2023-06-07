@@ -1,17 +1,21 @@
 <div id="slimeBank-calculator" class="container-box">
-<h3>RESEARCH</h3> 
-<div class="box">
-    <h4>Slime Bank</h4>
-    <div class="research"><img class="icon" src="./img/stone.png">
-        Stone Research &lt; <span class="green">Lv </span><input class="default-input" type="number" min="0" max="130" id="researchStoneLevel" value="0"> &gt;
-        <span style="float:right;" id="researchStoneValue" class="percent">$value</span>
-    </div>
-    <div class="research">
+<h3>RESEARCH</h3>
+<ul>
+    <li> 
+
+            <img class="icon" src="./img/stone.png">
+            Stone Research &lt; <span class="green">Lv </span><input class="default-input" type="number" min="0" max="130" id="researchStoneLevel" value="0"> &gt;
+        <span style="float:right;" id="researchStoneValue" class="percent">$value</span> 
+  
+    </li> 
+    <li>    
         <img class="icon" src="./img/leaf.png">
         Leaf Research &lt; <span class="green">Lv </span><input class="default-input" type="number" min="0" max="130" id="researchLeafLevel" value="0"> &gt;
         <span style="float:right;" id="researchLeafValue" class="percent">$value</span>
-    </div>
-</div>   
+ 
+    </li>   
+</ul>  
+  
 <h3>MILESTONE</h3>
 <div style="margin-right: 50px;">
 <ul>
@@ -29,17 +33,19 @@
 <table class="pet-box">
     <tr>
         <td rowspan="3"><img src="./img/redflametiger.png"></td>
-        <td>Red Flametiger</td>
+        <td colspan="2">Red Flametiger</td>
         <td>Pet Passive Effect</td>
     </tr>
     <tr>
-        <td>Rank: <input type="text" class="default-input" value="0" id="pet1Rank" size="8"></td>
+        <td>Rank: </td>
+        <td><input type="text" value="0" id="pet1Rank" class="input-size-3" maxlength="3"></td>
         <td>- Multiplies Slime Coin Cap by <span class="green percent" id="pet1Passive">520.54</span></td>
     </tr>
     <tr>
-        <td>Loyalty: <input type="text" class="default-input" value="0" id="pet1Loyalty" size="8"></td>
+        <td>Loyalty: </td>
+        <td><input type="text" value="0" id="pet1Loyalty" class="input-size-3" maxlength="3"></td>
     </tr>
-</table>
+</table> 
 
 
 

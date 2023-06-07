@@ -6,7 +6,18 @@ import { SlimeBank } from "./slimebank.js";
 import { Gear } from "./gear/gear.ts";
 // import "./style.css";
 
-const version = "0.1.7";
+const version = "0.1.8";
+const tab_list = [
+  { id: "slimeBank", name: "Slime Bank Calculator" },
+  { id: "guild", name: "Guild Calculator" },
+  // { id: "lab", name: "Lab Calculator" },
+  { id: "anvil", name: "Anvil Calculator" },
+  { id: "expedition", name: "Expedition Calculator" },
+  { id: "gear", name: "Gear Calculator" },
+  { id: "settings", name: "Settings" },
+  { id: "changelog", name: "Changelog" },
+];
+
 
 function ready(fn) {
   if (document.readyState != "loading") {
@@ -22,20 +33,14 @@ ready(function () {
 });
 
 function load() {
-  const tab_list = [
-    { id: "slimeBank", name: "Slime Bank Calculator" },
-    { id: "guild", name: "Guild Calculator" },
-    // { id: "lab", name: "Lab Calculator" },
-    { id: "anvil", name: "Anvil Calculator" },
-    { id: "expedition", name: "Expedition Calculator" },
-    { id: "gear", name: "Gear Calculator" },
-    { id: "settings", name: "Settings" },
-    { id: "changelog", name: "Changelog" },
-  ];
+tab_list.forEach(element => {
+  document.getElementById(element.id).addEventListener("click", changeTab);
+});
+
 
   if (localStorage.getItem("currentTab")) {
     tab_list.forEach((element) => {
-      document.getElementById(element.id).addEventListener("click", changeTab);
+      
       if (localStorage.getItem("currentTab") == element.id) {
         loadTab(element.id).then((response) => {
           // loading
@@ -60,13 +65,7 @@ function load() {
             // addEvent("settings.saveToFile", "click", saveToFile);
             // addEvent("settings.restart", "click", restart);
             var script = document.createElement("script");
-            // script.onload = function () {
-            //   //do stuff with the script
-            //   console.log("loaded?");
-            // };
-
             script.src = "js/settings.bundle.js";
-
             document.head.appendChild(script);
           }
         });
