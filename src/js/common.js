@@ -7,11 +7,7 @@ function changeTab(event) {
 
   if (event.target.id == "changelog") {
     let version = document.getElementById("version").innerHTML;
-    if (
-      localStorage.getItem("version") === null ||
-      localStorage.getItem("version") === "null" ||
-      localStorage.getItem("version") != version
-    ) {
+    if (localStorage.getItem("version") === null || localStorage.getItem("version") === "null" || localStorage.getItem("version") != version) {
       localStorage.setItem("version", version);
       document.getElementById("changelog").classList.remove("menu-button-warning");
     }
@@ -26,7 +22,7 @@ async function loadTab(tab) {
   // let file = "../html/" + tab + ".html";
   let file = "./html/" + tab + ".html";
   if (window.location.host != "127.0.0.1:3000") {
-    file = "https://pro-cess-us.github.io/ieh2calc/html/" + tab + ".html";
+    file = "https://pr0cessus.github.io/ieh2calc/html/" + tab + ".html";
   }
 
   let options = {
