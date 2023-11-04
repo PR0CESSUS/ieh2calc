@@ -88,12 +88,13 @@ class Guild {
         let level = this.data.levelCurrent + i;
         let requiredExp =
           Math.floor(
-            500.0 * (level + 1) +
+            (500.0 * (level + 1) +
               50.0 * Math.pow(level, 2.0) +
               500.0 * Math.pow(level / 5.0, 3.0) +
               2000.0 * Math.pow(level / 10.0, 6.0) +
               25000.0 * Math.pow(level / 20.0, 9.0) +
-              300000.0 * Math.pow(level / 30.0, 12.0)
+              300000.0 * Math.pow(level / 30.0, 12.0)) *
+              Math.pow(10.0, Math.max(0, level - 300) / 25.0)
           ) * talismanPassive;
 
         requiredExpTotal += requiredExp;
